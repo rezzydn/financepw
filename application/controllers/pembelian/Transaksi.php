@@ -91,10 +91,29 @@ class Transaksi extends CI_Controller {
 		$detail  = $this->addDetail($NoPesanan,$Status1);
 		// var_dump($detail);die;
 		if ($detail == 'ok') {
-				if ($Status1 == 'Edit') {
-					$this->db->delete('pembelian_master', array('no_pesanan' => $NoPesanan));
-				} 
-			$result = $this->db->insert('pembelian_master',$master);
+			if ($Status1 == 'Edit') {
+				$this->db->delete('pembelian_master', array('no_pesanan' => $NoPesanan));
+			} 
+
+			$result 			= $this->db->insert('pembelian_master',$master);
+			$id_data_pembelian 	= $this->db->insert_id();
+			if($id_data_pembelian > 0) {
+				$dataJurnalKas = [
+					'id_data_pembelian'  => $id_data_pembelian,
+					'id_perkiraan_akun'	 => KAS,
+					'debit'				 => $Nilai,
+					'kredit'			 => 0,
+				];
+				$this->db->insert('jurnal_pembelian', $dataJurnalKas);
+
+				$dataJurnalPersediaan = [
+					'id_data_pembelian'  => $id_data_pembelian,
+					'id_perkiraan_akun'	 => PERSEDIAAN_BARANG_DAGANG,
+					'debit'				 => 0,
+					'kredit'			 => $Nilai
+				];
+				$this->db->insert('jurnal_pembelian', $dataJurnalPersediaan);
+			}
 			echo "ok";
 		} else {
 			echo "error";

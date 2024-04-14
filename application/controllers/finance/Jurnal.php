@@ -8,10 +8,13 @@ class Jurnal extends CI_Controller {
 	{
 		parent::__construct();
 		$this->load->model('M_Finance');
-		
+		$this->load->model('M_Jurnal');
 	}
 	
-	public function index() {
+	public function index() 
+	{
+		$data['jurnals'] = $this->M_Jurnal->getAllJurnal();
+		dd($data['jurnals']);
 
 		$this->load->view('template/header');
 		$this->load->view('template/navbar');
@@ -19,7 +22,8 @@ class Jurnal extends CI_Controller {
 		$this->load->view('template/footer');
 	}
 
-	public function create() {
+	public function create() 
+	{
 		$Urutan = $this->db->query("select MAX(RIGHT(no_jurnal , 8 )) as kode from jurnal_master")->result();
 		$kode = $Urutan[0]->kode + 1;
 		$data['NoJurnal'] = "JU-".str_pad($kode, 8, "0", STR_PAD_LEFT);
