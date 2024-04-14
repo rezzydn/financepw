@@ -35,6 +35,7 @@
 											No. Pesanan
 										</label>
 										<input type="text" class="form-control" name="NoPesanan" id="NoPesanan" value="<?= $master[0]->no_pesanan ?>" readonly>
+										<input type="hidden" class="form-control" name="IdProduk" id="IdProduk" value="<?= $id_produk ?>" readonly>
 										<!-- <input type="hidden" class="form-control" name="NoPesanan" id="St" value="Edit" readonly> -->
 
 									</div>

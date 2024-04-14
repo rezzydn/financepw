@@ -214,7 +214,7 @@ CREATE TABLE `reseller` (
   `address` varchar(64) DEFAULT NULL,
   `upload_ktp` varchar(32) DEFAULT NULL,
   `upload_npwp` varchar(32) DEFAULT NULL,
-  `date_created` date NOT NULL DEFAULT current_timestamp()
+  `date_created` date NOT NULL DEFAULT CURRENT_DATE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --

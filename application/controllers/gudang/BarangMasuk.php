@@ -37,6 +37,7 @@ class BarangMasuk extends CI_Controller {
 		$data['data'] = $this->M_Gudang->getGudangMasuk();
 		$data['master'] = $this->M_Transaksi->getDataMaster($no_pesanan);
 		$detail = $this->M_Transaksi->getDataDetail($no_pesanan);
+		$data['id_produk'] = $detail[0]->id_produk;
 		$pesanan = $this->M_Gudang->getById('gudang_masuk',array('no_pesanan' => $no_pesanan));
 		$qty_tot = 0;
 		$qty_tots = 0;
@@ -124,6 +125,7 @@ class BarangMasuk extends CI_Controller {
 		$TanggalPesanan = $this->input->post('TanggalPesanan');
 		$Keterangan = $this->input->post('Keterangan');
 		$Qty = $this->input->post('totQty');
+		$IdProduk = $this->input->post('IdProduk');
 		$qtyDiterima = [];
 		foreach ($this->cart->contents() as $key => $value) {
 			$qtyDiterima =+ $value['options']['qty_diterima'];
@@ -141,6 +143,7 @@ class BarangMasuk extends CI_Controller {
 				'qty_progres' => 0,	
 				'user' => 'admin',	
 				'waktu' => date('Y-m-d H:i:s'),	
+				'id_produk' => $IdProduk
 			];
 			$insert_gudang = $this->db->insert('gudang_masuk',$gudang);
 			if ($insert_gudang) {	

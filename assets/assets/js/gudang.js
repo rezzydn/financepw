@@ -1,3 +1,9 @@
+$(document).ready(function() {
+	const QtyTotal = $('#totQty').text()
+
+	console.log('QtyTotal', QtyTotal)
+})
+
 
 function QtyDiterima(element){
 	// 
@@ -25,6 +31,7 @@ $("#btn-simpan-pesanan-pembelian").click(function (e) {
 	const TanggalPesanan = $('#TanggalPesanan').val();
 	const Keterangan = $('#Keterangan').val();
 	const totQty = $('#totQty').text();
+	const IdProduk = $("#IdProduk").val()
 	var uriSegments = window.location.pathname.split('/');
 	var BASE_URL = window.location.origin + '/' + uriSegments[1];
 
@@ -37,7 +44,8 @@ $("#btn-simpan-pesanan-pembelian").click(function (e) {
 				Lokasi:Lokasi,
 				TanggalPesanan:TanggalPesanan,
 				Keterangan:Keterangan,
-				totQty : totQty
+				totQty : totQty,
+				IdProduk: IdProduk
 			},
 		success: function (response) {
 		if (response == 'ok') {
@@ -48,12 +56,12 @@ $("#btn-simpan-pesanan-pembelian").click(function (e) {
 				showCancelButton: true,
 				confirmButtonColor: '#3085d6',
 				cancelButtonColor: '#d33',
-				confirmButtonText: 'Yes, delete it!'
+				confirmButtonText: 'Ya'
 				}).then((result) => {
 				if (result.isConfirmed) {
 					Swal.fire(
-					'Deleted!',
-					'Your file has been deleted.',
+					'Success!',
+					'Produk Sudah Diterima Gudang',
 					'success'
 					)
 					location.reload();

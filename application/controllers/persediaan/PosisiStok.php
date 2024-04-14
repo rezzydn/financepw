@@ -7,15 +7,15 @@ class PosisiStok extends CI_Controller {
 	{
 		parent::__construct();
 		$this->load->model('M_Crud');
-		
+		$this->load->model('M_Gudang');	
 	}
 	
 	public function index()
 	{
-
+		$data['stocks'] = $this->M_Gudang->getGudangMasukPenerimaanJoinPembelian();
 		$this->load->view('template/header');
 		$this->load->view('template/navbar');
-		$this->load->view('persediaan/posisi-stok/index');
+		$this->load->view('persediaan/posisi-stok/index', $data);
 		$this->load->view('template/footer');
 	}
 

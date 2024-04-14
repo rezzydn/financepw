@@ -75,10 +75,10 @@ $query_builder = TRUE;
 
 $db['default'] = array(
 	'dsn'	=> '',
-	'hostname' => 'localhost',
+	'hostname' => 'localhost:33061',
 	'username' => 'root',
-	'password' => '',
-	'database' => 'prettywell_coba',
+	'password' => 'hwhwhwlol',
+	'database' => 'prettywell',
 	'dbdriver' => 'mysqli',
 	'dbprefix' => '',
 	'pconnect' => FALSE,
@@ -97,9 +97,9 @@ $db['default'] = array(
 
 $db['second'] = array(
     'dsn'   => '',
-    'hostname' => 'localhost',
+    'hostname' => 'localhost:33061',
     'username' => 'root',
-    'password' => '',
+    'password' => 'hwhwhwlol',
     'database' => 'pw_website',
     'dbdriver' => 'mysqli',
     'dbprefix' => '',

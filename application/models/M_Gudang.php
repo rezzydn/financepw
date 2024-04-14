@@ -14,6 +14,14 @@ class M_Gudang extends CI_Model {
 		$this->db->join('pembelian_master', 'gudang_masuk.no_pesanan = pembelian_master.no_pesanan', 'left');
         return $this->db->get()->result();
     }
+    public function getGudangMasukPenerimaanJoinPembelian()
+    {
+		$this->db->from('gudang_masuk');
+		$this->db->join('pembelian_master', 'gudang_masuk.no_pesanan = pembelian_master.no_pesanan', 'left');
+		$this->db->join('pembelian_detail', 'gudang_masuk.id_produk = pembelian_detail.id_produk AND gudang_masuk.no_pesanan = pembelian_detail.no_pesanan');
+        $this->db->where('no_penempatan IS NOT NULL');
+        return $this->db->get()->result();
+    }
     public function getGudangMasukReturJoin() 
 	{
 		$this->db->from('v_pembelian_master');

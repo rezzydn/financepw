@@ -18,13 +18,6 @@
                         <div class="col pe-md-32 pe-md-120">
                             <h4>Daftar Transaksi</h4>
                         </div>
-
-                        <!-- <div class="col hp-flex-none w-auto">
-                            <a href="<?= base_url('pembelian/Transaksi')?>" class="btn btn-danger w-100" >
-                                <i class="ri-user-add-line remix-icon"></i>
-                                <span>Batal</span>
-                            </a>
-                        </div> -->
 						<div class="col-12 mt-16">
 						<form>
 						<div class="modal-body">
@@ -56,7 +49,6 @@
 											Lokasi
 										</label>
 										<select class="form-select" name="lokasi" id="Lokasi" >
-											<!-- <option selected hidden>--Pilih--</option> -->
 											<option value="Gundang" selected>Gudang</option>
 										</select>
 									</div>

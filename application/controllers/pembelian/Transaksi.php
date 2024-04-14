@@ -55,37 +55,37 @@ class Transaksi extends CI_Controller {
 	public function addMaster()
 	{
 		//master
-		$NoPesanan = $this->input->post('NoPesanan');
-		$Supplier = $this->input->post('Supplier');
-		$Lokasi = $this->input->post('Lokasi');
+		$NoPesanan 		= $this->input->post('NoPesanan');
+		$Supplier 		= $this->input->post('Supplier');
+		$Lokasi 		= $this->input->post('Lokasi');
 		$TanggalPesanan = $this->input->post('TanggalPesanan');
-		$Status = 'Aktif';
-		$NilaiBruto = $this->input->post('NilaiBruto');
-		$Diskon = $this->input->post('Diskon');
-		$Pajak = $this->input->post('Pajak');
-		$Nilai = $this->input->post('Nilai');
-		$Keterangan = $this->input->post('Keterangan');
-		$Waktu = date("Y-m-d H:i:s");
-		$Status1 = $this->input->post('St');
-		$Status2 = 'Trans';
-		$StatusInt1 = 0;
-		$StatusInt2 = 0;
+		$Status 		= 'Aktif';
+		$NilaiBruto 	= $this->input->post('NilaiBruto');
+		$Diskon 		= $this->input->post('Diskon');
+		$Pajak 			= $this->input->post('Pajak');
+		$Nilai 			= $this->input->post('Nilai');
+		$Keterangan 	= $this->input->post('Keterangan');
+		$Waktu 			= date("Y-m-d H:i:s");
+		$Status1 		= $this->input->post('St');
+		$Status2 		= 'Trans';
+		$StatusInt1 	= 0;
+		$StatusInt2 	= 0;
 		$master = [
-			'no_pesanan' => $NoPesanan,
-			'nama_supplier' => $Supplier,
-			'lokasi' => $Lokasi,
-			'tanggal_pesanan' => $TanggalPesanan,
-			'nilai_bruto' => $NilaiBruto,
-			'status' => $Status,
-			'diskon' => $Diskon,
-			'pajak' => $Pajak,
-			'nilai' => $Nilai,
-			'keterangan' => $Keterangan,
-			'waktu' => $Waktu,
-			'status1' => $Status1,
-			'status2' => $Status2,
-			'StatusInt1' => $StatusInt1,
-			'StatusInt2' => $StatusInt2,
+			'no_pesanan' 		=> $NoPesanan,
+			'nama_supplier' 	=> $Supplier,
+			'lokasi' 			=> $Lokasi,
+			'tanggal_pesanan' 	=> $TanggalPesanan,
+			'nilai_bruto' 		=> $NilaiBruto,
+			'status' 			=> $Status,
+			'diskon' 			=> $Diskon,
+			'pajak' 			=> $Pajak,
+			'nilai' 			=> $Nilai,
+			'keterangan' 		=> $Keterangan,
+			'waktu' 			=> $Waktu,
+			'status1' 			=> $Status1,
+			'status2' 			=> $Status2,
+			'StatusInt1' 		=> $StatusInt1,
+			'StatusInt2' 		=> $StatusInt2,
 		];
 		//Detail
 		$detail  = $this->addDetail($NoPesanan,$Status1);
