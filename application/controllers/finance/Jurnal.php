@@ -14,11 +14,10 @@ class Jurnal extends CI_Controller {
 	public function index() 
 	{
 		$data['jurnals'] = $this->M_Jurnal->getAllJurnal();
-		dd($data['jurnals']);
-
+		// dd($data['jurnals']);
 		$this->load->view('template/header');
 		$this->load->view('template/navbar');
-		$this->load->view('finance/jurnal/index');
+		$this->load->view('finance/jurnal/index', $data);
 		$this->load->view('template/footer');
 	}
 

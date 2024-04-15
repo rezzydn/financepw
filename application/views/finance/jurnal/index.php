@@ -75,8 +75,38 @@
                                 </tr>
                             </thead>
                             <tbody>
-								
-								<tr>
+                                <?php 
+                                    $no = 1;
+                                    foreach ($jurnals as $key => $value) { 
+                                ?>
+                                <tr>
+                                    <th scope="row"><a href="<?= base_url('admin/finance/Jurnal/detail')?>"><b><?= $value['no_jurnal'] ?></b></a></th>
+                                    <td><?= $value['tgl_jurnal'] ?></td>
+                                    <td><?= $value['sumber'] ?></td>
+                                    <td>Rp. <?= $value['nominal'] ?></td>
+                                    <td><?= $value['keterangan'] ?></td>
+                                    <td>
+                                        <?php if ($value['sumber'] == 'Jurnal Umum') {
+                                            echo '<span class="badge rounded-pill text-warning bg-secondary-4 hp-bg-dark-warning border-warning">Manual</span>';
+                                        } else if ($value['sumber'] == 'Pembelian' || $value['sumber'] == 'Penjualan'){
+                                            echo '<span class="badge rounded-pill text-dark bg-secondary-4 hp-bg-dark-dark border-dark">Otomatis</span>';
+                                        } else {
+                                            echo '-';
+                                        }
+                                        ?>
+									</td>
+                                    <td>
+                                        <?php if ($value['sumber'] == 'Jurnal Umum') {
+                                            echo 'Transaksi Jurnal';
+                                        } else if ($value['sumber'] == 'Pembelian' || $value['sumber'] == 'Penjualan'){
+                                            echo "Otomatis - Transaksi " . $value['sumber'];
+                                        } else {
+                                            echo '-';
+                                        }
+                                        ?>
+                                    </td>
+                                </tr>
+								<!-- <tr>
                                     <th scope="row"><a href="<?= base_url('admin/finance/Jurnal/detail')?>"><b>JU-00001</b></a></th>
                                     <td>01 Juli 2023 09:35</td>
                                     <td>Jurnal Umum</td>
@@ -98,8 +128,8 @@
                                         <span class="badge rounded-pill text-dark bg-secondary-4 hp-bg-dark-dark border-dark">Otomatis</span>
 									</td>
                                     <td>Otomatis - Transaksi Pembelian</td>
-                                </tr>
-
+                                </tr> -->
+                                <?php } ?>
                             </tbody>
                         </table>
                         </div>
