@@ -23,9 +23,9 @@ class Jurnal extends CI_Controller {
 
 	public function create() 
 	{
-		$Urutan = $this->db->query("select MAX(RIGHT(no_jurnal , 8 )) as kode from jurnal_master")->result();
+		$Urutan = $this->db->query("select MAX(RIGHT(kode_transaksi , 3)) as kode from jurnal_umum")->result();
 		$kode = $Urutan[0]->kode + 1;
-		$data['NoJurnal'] = "JU-".str_pad($kode, 8, "0", STR_PAD_LEFT);
+		$data['NoJurnal'] = "JU-".str_pad($kode, 4, "0", STR_PAD_LEFT);
 
 		$data['daftar_akun'] = $this->M_Finance->getAkun();
 		
