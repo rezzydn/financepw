@@ -76,7 +76,7 @@
                                         <th scope="col"></th>
                                     </tr>
                                 </thead>
-                                <tbody id="detai_cart">                            
+                                <tbody id="detai_cart_ju">                            
                                 </tbody>
 								<?php if ($this->cart->contents()) { ?>
 								<tfoot>

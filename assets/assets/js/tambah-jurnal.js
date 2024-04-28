@@ -9,9 +9,10 @@ function pilihDaftarAkun(element) {
 	var BASE_URL = window.location.origin + '/' + uriSegments[1];
 	$.ajax({
 		type: "POST",
-		url:  BASE_URL + '/' + 'Cart/add',
-		data: {"id" : id, "name" : name, "price" : price},
+		url:  BASE_URL + '/' + 'Cart/addCartJU',
+		data: {"id_akun": id, "akun" : name, "kelompok" : kelompok},
 		success: function (response) {
+			console.log('response', response)
 			$('#modal_barang').modal('hide');			
 			$('#detai_cart').load(BASE_URL + '/' + 'Cart/load_cart');
 			$('#total').load(BASE_URL + '/' + 'Cart/total');

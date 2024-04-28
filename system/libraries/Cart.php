@@ -173,6 +173,39 @@ class CI_Cart {
 		return FALSE;
 	}
 
+	public function insertJU($items = array())
+	{
+		// Was any cart data passed? No? Bah...
+		if ( ! is_array($items) OR count($items) === 0)
+		{
+			log_message('error', 'The insert method must be passed an array containing data.');
+			return FALSE;
+		}
+
+		// You can either insert a single product using a one-dimensional array,
+		// or multiple products using a multi-dimensional one. The way we
+		// determine the array type is by looking for a required array key named "id"
+		// at the top level. If it's not found, we will assume it's a multi-dimensional array.
+
+		$save_cart = FALSE;
+		if (isset($items['id']))
+		{
+			if (($rowid = $this->_insertJU($items)))
+			{
+				$save_cart = TRUE;
+			}
+		}
+
+		// Save the cart data if the insert was successful
+		if ($save_cart === TRUE)
+		{
+			$this->_save_cart();
+			return isset($rowid) ? $rowid : TRUE;
+		}
+
+		return FALSE;
+	}
+
 	// --------------------------------------------------------------------
 
 	/**
@@ -267,6 +300,21 @@ class CI_Cart {
 		// Re-create the entry, just to make sure our index contains only the data from this submission
 		$items['rowid'] = $rowid;
 		$items['qty'] += $old_quantity;
+		$this->_cart_contents[$rowid] = $items;
+
+		return $rowid;
+	}
+
+	protected function _insertJU($items = array())
+	{
+		// Was any cart data passed? No? Bah...
+		if ( ! is_array($items) OR count($items) === 0)
+		{
+			log_message('error', 'The insert method must be passed an array containing data.');
+			return FALSE;
+		}
+		$rowid 			= md5($items['id']);
+		$items['rowid'] = $rowid;
 		$this->_cart_contents[$rowid] = $items;
 
 		return $rowid;
