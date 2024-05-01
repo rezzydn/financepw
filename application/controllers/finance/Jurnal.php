@@ -34,4 +34,32 @@ class Jurnal extends CI_Controller {
 		$this->load->view('finance/jurnal/create',$data);
 		$this->load->view('template/footer');
 	}
+
+	public function store()
+	{
+		$NoJurnal 		= $this->input->post('NoJurnal');
+		$TanggalJurnal 	= $this->input->post('TanggalJurnal');
+		$keterangan 	= $this->input->post('keterangan');
+		$data = [];
+		foreach ($this->cart->contents() as $key => $value) {
+			if($value['type'] == 'JU') {
+				array_push($data , [
+					'id_perkiraan_akun' => $value['id'],
+					'kode_transaksi'	=> $NoJurnal,
+					'tanggal'			=> $TanggalJurnal,
+					'keterangan'		=> $keterangan,
+					'debit'				=> $value['debit'],
+					'kredit'			=> $value['kredit'],
+				]);
+			}
+		}
+
+		$result = $this->db->insert_batch('jurnal_umum', $data); 
+
+		if($result) {
+			echo json_encode(['code' => 200, 'message' => 'ok']);die;
+		} else {
+			echo json_encode(['code' => 500, 'message' => 'error']);die;
+		}
+	}
 }

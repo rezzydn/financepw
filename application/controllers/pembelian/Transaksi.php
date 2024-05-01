@@ -124,22 +124,24 @@ class Transaksi extends CI_Controller {
 		$data = [];
 		$totQty = [];
 		foreach ($this->cart->contents() as $key => $value) {
-			array_push($data , array(
-				'no_pesanan' => $NoPesanan,
-				'id_produk' => $value['id'],
-				'nama_produk' => $value['name'],
-				'harga'   =>   $value['price'],
-                'qty'   =>   $value['qty'],
-                'diskon_prtg'   =>   $value['options']['DiskonPrtg'],
-                'diskon_nilai'   =>    $value['options']['DiskonNilai'],
-                'pajak'  => $value['options']['Pajak'],
-                'status1'  => $Status1,
-                'status2'  => '',
-                'statusInt'  => 0,
-                'waktu'  => date('Y-m-d H:i:s'),
-			));
+			if($value['type'] != 'JU') {
+				array_push($data , array(
+					'no_pesanan' => $NoPesanan,
+					'id_produk' => $value['id'],
+					'nama_produk' => $value['name'],
+					'harga'   =>   $value['price'],
+					'qty'   =>   $value['qty'],
+					'diskon_prtg'   =>   $value['options']['DiskonPrtg'],
+					'diskon_nilai'   =>    $value['options']['DiskonNilai'],
+					'pajak'  => $value['options']['Pajak'],
+					'status1'  => $Status1,
+					'status2'  => '',
+					'statusInt'  => 0,
+					'waktu'  => date('Y-m-d H:i:s'),
+				));
 
-			$totQty =+ $value['qty'];
+				$totQty =+ $value['qty'];
+			}
 		}
 		if ($Status1 == 'Edit') {
 			$this->db->delete('pembelian_detail', array('no_pesanan' => $NoPesanan));

@@ -12,15 +12,11 @@ function pilihDaftarAkun(element) {
 		url:  BASE_URL + '/' + 'Cart/addCartJU',
 		data: {"id_akun": id, "akun" : name, "kelompok" : kelompok},
 		success: function (response) {
-			console.log('response', response)
 			$('#modal_barang').modal('hide');			
-			$('#detai_cart').load(BASE_URL + '/' + 'Cart/load_cart');
-			$('#total').load(BASE_URL + '/' + 'Cart/total');
-			$('#totQty').load(BASE_URL + '/' + 'Cart/total_qty');
-			$('#totDiskon').load(BASE_URL + '/' + 'Cart/total_diskon');
-			$('#totPajak').load(BASE_URL + '/' + 'Cart/total_pajak');
-			$('#totProduk').load(BASE_URL + '/' + 'Cart/total_produk');
-			$('#totalBruto').load(BASE_URL + '/' + 'Cart/total_bruto');	
+			$('#detai_cart_ju').load(BASE_URL + '/' + 'Cart/load_cart_ju');
+			$('#tot_debit').load(BASE_URL + '/' + 'Cart/totalDebitJU');
+			$('#tot_kredit').load(BASE_URL + '/' + 'Cart/totalKreditJU');
+			$('#selisih').load(BASE_URL + '/' + 'Cart/selisihJU');
 		}
 	});
 }
@@ -34,18 +30,14 @@ $('#clear-cart').click(function (e) {
 		type: "POST",
 		url:  BASE_URL + '/' + 'Cart/destroyCart',
 		success: function (response) {
-			$('#detai_cart').load(BASE_URL + '/' + 'Cart/load_cart');
-			$('#total').load(BASE_URL + '/' + 'Cart/total');
-			$('#totQty').load(BASE_URL + '/' + 'Cart/total_qty');
-			$('#totDiskon').load(BASE_URL + '/' + 'Cart/total_diskon');
-			$('#totPajak').load(BASE_URL + '/' + 'Cart/total_pajak');
-			$('#totProduk').load(BASE_URL + '/' + 'Cart/total_produk');
-			$('#totalBruto').load(BASE_URL + '/' + 'Cart/total_bruto');
+			$('#detai_cart_ju').load(BASE_URL + '/' + 'Cart/load_cart_ju');
+			$('#tot_debit').load(BASE_URL + '/' + 'Cart/totalDebitJU');
+			$('#tot_kredit').load(BASE_URL + '/' + 'Cart/totalKreditJU');
+			$('#selisih').load(BASE_URL + '/' + 'Cart/selisihJU');
 		}
 	});
 });
 
-//hapus row di detail cart
 $(document).on('click','.hapus_cart',function(e){
 	e.preventDefault();
 	var uriSegments = window.location.pathname.split('/');
@@ -56,151 +48,56 @@ $(document).on('click','.hapus_cart',function(e){
 		method : "POST",
 		data : {row_id : row_id},
 		success :function(res){			
-			$('#detai_cart').load(BASE_URL + '/' + 'Cart/load_cart');
-			$('#total').load(BASE_URL + '/' + 'Cart/total');
-			$('#totQty').load(BASE_URL + '/' + 'Cart/total_qty');
-			$('#totDiskon').load(BASE_URL + '/' + 'Cart/total_diskon');
-			$('#totPajak').load(BASE_URL + '/' + 'Cart/total_pajak');
-			$('#totProduk').load(BASE_URL + '/' + 'Cart/total_produk');
-			$('#totalBruto').load(BASE_URL + '/' + 'Cart/total_bruto');
+			$('#detai_cart_ju').load(BASE_URL + '/' + 'Cart/load_cart_ju');
+			$('#tot_debit').load(BASE_URL + '/' + 'Cart/totalDebitJU');
+			$('#tot_kredit').load(BASE_URL + '/' + 'Cart/totalKreditJU');
+			$('#selisih').load(BASE_URL + '/' + 'Cart/selisihJU');
 		}
 	});
 });
 
-//update qty
-
-function Qty(element){
+function changeDebit(element){
 	// 
-	console.log(element);
-    var rowid =  $(element).data('id');
-    var qty=  $(element).val(); 
+    var rowid 	=  $(element).data('id');
+    var debit	=  $(element).val(); 
 	var uriSegments = window.location.pathname.split('/');
 	var BASE_URL = window.location.origin + '/' + uriSegments[1];
-	// console.log(qty);
-    //mengambil row_id dari artibut id
 	$.ajax({
-		url:  BASE_URL + '/' + 'Cart/update_qty',
+		url:  BASE_URL + '/' + 'Cart/updateDebitJU',
 		method : "POST",
-		data : {rowid:rowid,qty:qty},
+		data : {rowid:rowid,debit:debit},
 		success :function(data){		
-			$('#detai_cart').load(BASE_URL + '/' + 'Cart/load_cart');
-			$('#total').load(BASE_URL + '/' + 'Cart/total');
-			$('#totQty').load(BASE_URL + '/' + 'Cart/total_qty');
-			$('#totDiskon').load(BASE_URL + '/' + 'Cart/total_diskon');
-			$('#totPajak').load(BASE_URL + '/' + 'Cart/total_pajak');
-			$('#totProduk').load(BASE_URL + '/' + 'Cart/total_produk');
-			$('#totalBruto').load(BASE_URL + '/' + 'Cart/total_bruto');
+			$('#detai_cart').load(BASE_URL + '/' + 'Cart/load_cart_ju');
+			$('#tot_debit').load(BASE_URL + '/' + 'Cart/totalDebitJU');
+			$('#tot_kredit').load(BASE_URL + '/' + 'Cart/totalKreditJU');
+			$('#selisih').load(BASE_URL + '/' + 'Cart/selisihJU');
 		}
 	});
 }
 
-function DiskonPresentage(element){
-	
-    var rowid =  $(element).data('id');
-    var diskonPrtg=  $(element).val(); 
+function changeKredit(element){
+    var rowid 	=  $(element).data('id');
+    var kredit	=  $(element).val(); 
 	var uriSegments = window.location.pathname.split('/');
 	var BASE_URL = window.location.origin + '/' + uriSegments[1];
-	console.log(diskonPrtg);
-    //mengambil row_id dari artibut id
 	$.ajax({
-		url:  BASE_URL + '/' + 'Cart/update_diskonPrtg',
+		url:  BASE_URL + '/' + 'Cart/updateKreditJU',
 		method : "POST",
-		data : {rowid:rowid,diskonPrtg:diskonPrtg},
-		success :function(data){
-			$('#detai_cart').load(BASE_URL + '/' + 'Cart/load_cart');
-			$('#total').load(BASE_URL + '/' + 'Cart/total');
-			$('#totQty').load(BASE_URL + '/' + 'Cart/total_qty');
-			$('#totDiskon').load(BASE_URL + '/' + 'Cart/total_diskon');
-			$('#totPajak').load(BASE_URL + '/' + 'Cart/total_pajak');
-			$('#totProduk').load(BASE_URL + '/' + 'Cart/total_produk');
-			$('#totalBruto').load(BASE_URL + '/' + 'Cart/total_bruto');
-		}
-	});
-}
-function DiskonNilai(element){
-	
-    var rowid =  $(element).data('id');
-    var DiskonNilai=  $(element).val(); 
-	var uriSegments = window.location.pathname.split('/');
-	var BASE_URL = window.location.origin + '/' + uriSegments[1];
-	console.log(DiskonNilai);
-    //mengambil row_id dari artibut id
-	$.ajax({
-		url:  BASE_URL + '/' + 'Cart/update_DiskonNilai',
-		method : "POST",
-		data : {rowid:rowid,diskonNilai:DiskonNilai},
-		success :function(data){
-			$('#detai_cart').load(BASE_URL + '/' + 'Cart/load_cart');
-			$('#total').load(BASE_URL + '/' + 'Cart/total');
-			$('#totQty').load(BASE_URL + '/' + 'Cart/total_qty');
-			$('#totDiskon').load(BASE_URL + '/' + 'Cart/total_diskon');
-			$('#totPajak').load(BASE_URL + '/' + 'Cart/total_pajak');
-			$('#totProduk').load(BASE_URL + '/' + 'Cart/total_produk');
-			$('#totalBruto').load(BASE_URL + '/' + 'Cart/total_bruto');
-		}
-	});
-}
-$(document).on('change','.Pajak',function(e){ 
-	e.preventDefault();
-	console.log('ok');
-	var rowid =  $(this).data('id');
-    var Pajak =  $(this).val(); 
-	var uriSegments = window.location.pathname.split('/');
-	var BASE_URL = window.location.origin + '/' + uriSegments[1];
-	console.log(Pajak);
-    //mengambil row_id dari artibut id
-	$.ajax({
-		url:  BASE_URL + '/' + 'Cart/update_Pajak',
-		method : "POST",
-		data : {rowid:rowid,pajak:Pajak},
-		success :function(data){
-			$('#detai_cart').load(BASE_URL + '/' + 'Cart/load_cart');
-			$('#total').load(BASE_URL + '/' + 'Cart/total');
-			$('#totQty').load(BASE_URL + '/' + 'Cart/total_qty');
-			$('#totDiskon').load(BASE_URL + '/' + 'Cart/total_diskon');
-			$('#totPajak').load(BASE_URL + '/' + 'Cart/total_pajak');
-			$('#totProduk').load(BASE_URL + '/' + 'Cart/total_produk');
-			$('#totalBruto').load(BASE_URL + '/' + 'Cart/total_bruto');
-		}
-	});
-});
-function Pajak(element){
-	
-    var rowid =  $(element).data('id');
-    var Pajak=  $(element).val(); 
-	var uriSegments = window.location.pathname.split('/');
-	var BASE_URL = window.location.origin + '/' + uriSegments[1];
-    //mengambil row_id dari artibut id
-	$.ajax({
-		url:  BASE_URL + '/' + 'Cart/update_Pajak',
-		method : "POST",
-		data : {rowid:rowid,pajak:Pajak},
-		success :function(data){
-			console.log(data);
-			$('#detai_cart').load(BASE_URL + '/' + 'Cart/load_cart');
-			$('#total').load(BASE_URL + '/' + 'Cart/total');
-			$('#totQty').load(BASE_URL + '/' + 'Cart/total_qty');
-			$('#totDiskon').load(BASE_URL + '/' + 'Cart/total_diskon');
-			$('#totPajak').load(BASE_URL + '/' + 'Cart/total_pajak');
-			$('#totProduk').load(BASE_URL + '/' + 'Cart/total_produk');
-			$('#totalBruto').load(BASE_URL + '/' + 'Cart/total_bruto');
+		data : {rowid:rowid,kredit:kredit},
+		success :function(data){		
+			$('#detai_cart_ju').load(BASE_URL + '/' + 'Cart/load_cart_ju');
+			$('#tot_debit').load(BASE_URL + '/' + 'Cart/totalDebitJU');
+			$('#tot_kredit').load(BASE_URL + '/' + 'Cart/totalKreditJU');
+			$('#selisih').load(BASE_URL + '/' + 'Cart/selisihJU');
 		}
 	});
 }
 
-//store transaksi pembelian
-$("#btn-simpan-pembelian").click(function (e) { 
+$("#btn-simpan-jurnal-umum").click(function (e) { 
 	e.preventDefault();
-	const NoPesanan = $('#NoPesanan').val();
-	const St = $('#St').val();
-	const Supplier = $('#Supplier option:selected').val();
-	const Lokasi = $('#Lokasi option:selected').val();
-	const TanggalPesanan = $('#TanggalPesanan').val();
-	const Keterangan = $('#Keterangan').val();
-	const NilaiBruto = $('#totalBruto').text().replace(/[.,]/g, '');;
-	const Diskon = $('#totDiskon').text().replace(/[.,]/g, '');;
-	const Pajak = $('#totPajak').text().replace(/[.,]/g, '');;
-	const Nilai = $('#total').text().replace(/[.,]/g, '');;
+	const NoJurnal = $('#NoJurnal').val();
+	const TanggalJurnal = $('#TanggalJurnal').val();
+	const keterangan = $('#Keterangan').val();
 	let uriSegments = window.location.pathname.split('/');
 	let BASE_URL = window.location.origin + '/' + uriSegments[1];
 	Swal.fire({
@@ -215,71 +112,49 @@ $("#btn-simpan-pembelian").click(function (e) {
 		if (result.isConfirmed) {
 			$.ajax({
 				method : "POST",
-				url:  BASE_URL + '/' + 'pembelian/Transaksi/addMaster',
+				url:  BASE_URL + '/' + 'finance/Jurnal/store',
 				data : {
-						NoPesanan:NoPesanan,
-						St:St,
-						Supplier:Supplier,
-						Lokasi:Lokasi,
-						TanggalPesanan:TanggalPesanan,
-						Keterangan:Keterangan,
-						NilaiBruto:NilaiBruto,
-						Diskon:Diskon,
-						Pajak:Pajak,
-						Nilai:Nilai,
+						NoJurnal:NoJurnal,
+						TanggalJurnal:TanggalJurnal,
+						keterangan:keterangan,
 					},
-				beforeSend: function() {
-					$.ajax({
-						type: "POST",
-						url:  BASE_URL + '/' + 'cart/validasiCart',
-						success: function (response) {
-							if (response == '1') {
-								Swal.fire({
-								icon: 'warning',
-								title: 'Barang harus diisi!',
-								})
-							}
-							return false;
-						}
-					});
-				},	
 				success: function (response) {
 					console.log(response);
-					if (response == 'ok') {
-						Swal.fire({
-							toast: true,
-							title: 'Berhasil',
-							text: "Transaksi Berhasil",
-							icon: 'success',
-							// showCancelButton: true,
-							confirmButtonColor: '#3085d6',
-							cancelButtonColor: '#d33',
-							confirmButtonText: 'ok!'
-							}).then((result) => {
-							if (result.isConfirmed) {					
-								$.ajax({
-									type: "POST",
-									url:  BASE_URL + '/' + 'cart/destroyCart',
-									success: function (response) {
-										$('#detai_cart').load(BASE_URL + '/' + 'Cart/load_cart');
-										$('#total').load(BASE_URL + '/' + 'Cart/total');
-										$('#totQty').load(BASE_URL + '/' + 'Cart/total_qty');
-										$('#totDiskon').load(BASE_URL + '/' + 'Cart/total_diskon');
-										$('#totPajak').load(BASE_URL + '/' + 'Cart/total_pajak');
-										$('#totProduk').load(BASE_URL + '/' + 'Cart/total_produk');
-										$('#totalBruto').load(BASE_URL + '/' + 'Cart/total_bruto');
-										location.reload();
-									}
-								});
-							}
-						})
-					} else {
-						Swal.fire({
-							icon: 'error',
-							title: 'Gagal Menambahkan Data!',
-						})
-						// location.reload();
-					}
+					// if (response == 'ok') {
+					// 	Swal.fire({
+					// 		toast: true,
+					// 		title: 'Berhasil',
+					// 		text: "Transaksi Berhasil",
+					// 		icon: 'success',
+					// 		// showCancelButton: true,
+					// 		confirmButtonColor: '#3085d6',
+					// 		cancelButtonColor: '#d33',
+					// 		confirmButtonText: 'ok!'
+					// 		}).then((result) => {
+					// 		if (result.isConfirmed) {					
+					// 			$.ajax({
+					// 				type: "POST",
+					// 				url:  BASE_URL + '/' + 'cart/destroyCart',
+					// 				success: function (response) {
+					// 					$('#detai_cart').load(BASE_URL + '/' + 'Cart/load_cart_ju');
+					// 					$('#total').load(BASE_URL + '/' + 'Cart/total');
+					// 					$('#totQty').load(BASE_URL + '/' + 'Cart/total_qty');
+					// 					$('#totDiskon').load(BASE_URL + '/' + 'Cart/total_diskon');
+					// 					$('#totPajak').load(BASE_URL + '/' + 'Cart/total_pajak');
+					// 					$('#totProduk').load(BASE_URL + '/' + 'Cart/total_produk');
+					// 					$('#totalBruto').load(BASE_URL + '/' + 'Cart/total_bruto');
+					// 					location.reload();
+					// 				}
+					// 			});
+					// 		}
+					// 	})
+					// } else {
+					// 	Swal.fire({
+					// 		icon: 'error',
+					// 		title: 'Gagal Menambahkan Data!',
+					// 	})
+					// 	// location.reload();
+					// }
 				}
 			});
 		}

@@ -35,7 +35,7 @@
 											No. Jurnal
 										</label>
 										<input type="text" class="form-control" name="NoJurnal" id="NoJurnal" value="<?= $NoJurnal ?>" readonly>
-										<input type="hidden" class="form-control" name="NoJurnal" id="St" value="New" readonly>
+										<!-- <input type="hidden" class="form-control" name="NoJurnal" id="St" value="New" readonly> -->
 									</div>
 								</div>
 
@@ -45,7 +45,7 @@
 											<span class="text-danger me-4">*</span>
 											Tanggal
 										</label>
-										<input type="date" class="form-control" name="tanggal_jurnal" id="TanggalPesanan" placeholder="Tanggal Jurnal">
+										<input type="date" class="form-control" name="TanggalJurnal" id="TanggalJurnal" placeholder="Tanggal Jurnal">
 									</div>
 								</div>
 								<div class="col-12 col-md-12">
@@ -128,7 +128,7 @@
 						<div class="col-12 mt-16">
 							<div class="col-12 col-md-12 ">
 								<div class="row mb-24">
-									<button type="button" class="btn btn-success" id="btn-simpan-pembelian">Simpan</button>
+									<button type="button" class="btn btn-success" id="btn-simpan-jurnal-umum">Simpan</button>
 								</div>
 							</div>						
 						</div>

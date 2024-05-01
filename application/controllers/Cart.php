@@ -237,7 +237,6 @@ class Cart extends CI_Controller {
 		
         $this->cart->update($data);
         echo $this->load_cart();
-  
     }
 	function update_qty_retur(){ //load data cart
 		
@@ -337,9 +336,13 @@ class Cart extends CI_Controller {
     }
     function destroyCart(){ //fungsi untuk menghapus item cart
 		
-		session_destroy();
-        echo $this->ShowCart();
-       
+		// session_destroy();
+        // echo $this->ShowCart();
+		$filteredContents = array_filter($this->cart->contents(), function($item) {
+			return $item->type != "JU";
+		});
+		
+		$this->cart->contents($filteredContents);
     }
     
 	function validasiCart(){ //fungsi untuk menghapus item cart
@@ -377,8 +380,8 @@ class Cart extends CI_Controller {
 				$output .= '
 				<tr> 	
 					<td>'.$items["akun"].'</td>
-					<td><input style="width: 100px;" type="number"  value="'.$items['debit'].'" id="debit"  data-id="'.$items['rowid'].'" data-value="'.$items["debit"].'" onchange="Debit(this)"></td>
-					<td><input style="width: 100px;" type="number"  value="'.$items["kredit"].'" id="kredit"  data-id="'.$items['rowid'].'" data-value="'.$items["kredit"].'" onchange="Kredit(this)"></td>
+					<td><input style="width: 100px;" type="number"  value="'.$items['debit'].'" id="debit"  data-id="'.$items['rowid'].'" data-value="'.$items["debit"].'" onchange="changeDebit(this)"></td>
+					<td><input style="width: 100px;" type="number"  value="'.$items["kredit"].'" id="kredit"  data-id="'.$items['rowid'].'" data-value="'.$items["kredit"].'" onchange="changeKredit(this)"></td>
 					<td><button type="button" id="'.$items['rowid'].'" class="hapus_cart btn btn-danger btn-xs">
 					Batal</button></td>	
 				</tr>
@@ -389,7 +392,67 @@ class Cart extends CI_Controller {
 		return $output;
 	}
 
-	function load_cart_ju(){ //load data cart
+	function load_cart_ju() {
         echo $this->ShowCartJU();
     }
+
+	function totalDebitJU() {
+		$totalDebit = 0;
+		foreach($this->cart->contents() as $items) {
+			if($items['type'] == 'JU') {
+				$totalDebit += $items['debit'];
+			}
+		}
+		echo number_format($totalDebit);
+	} 
+
+	function updateDebitJU() {
+        $rowid =  $this->input->post('rowid');
+        $debit =  $this->input->post('debit');
+	
+        $data = array(
+            'rowid' => $rowid, 
+            'debit' => $debit, 
+        );
+		
+        $this->cart->update($data);
+        echo $this->load_cart_ju();
+    }
+
+	function totalKreditJU() {
+		$totalKredit = 0;
+		foreach($this->cart->contents() as $items) {
+			if($items['type'] == 'JU') {
+				$totalKredit += $items['kredit'];
+			}
+		}
+		echo number_format($totalKredit);
+	}
+
+	function updateKreditJU() {
+        $rowid 	=  $this->input->post('rowid');
+        $kredit =  $this->input->post('kredit');
+	
+        $data = array(
+            'rowid' 	=> $rowid, 
+            'kredit' 	=> $kredit, 
+        );
+		
+        $this->cart->update($data);
+        echo $this->load_cart_ju();
+    }
+
+
+	function selisihJU() {
+		$totalKredit 	= 0;
+		$totalDebit 	= 0;
+		foreach($this->cart->contents() as $items) {
+			if($items['type'] == 'JU') {
+				$totalKredit += $items['kredit'];
+				$totalDebit += $items['debit'];
+			}
+		}
+		echo number_format($totalDebit - $totalKredit);
+
+	}
 }

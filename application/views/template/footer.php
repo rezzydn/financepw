@@ -66,8 +66,12 @@
         });
         }, 5000);
 		$(document).ready(function() {
+			$('#detai_cart_ju').load("<?= base_url()?>cart/load_cart_ju");
+			$('#tot_debit').load("<?= base_url()?>Cart/totalDebitJU");
+			$('#tot_kredit').load("<?= base_url()?>Cart/totalKreditJU");
+			$('#selisih').load("<?= base_url()?>Cart/selisihJU");
+
 			$('#detai_cart').load("<?= base_url()?>cart/load_cart");
-			$('#detai_cart_ju   ').load("<?= base_url()?>cart/load_cart_ju");
 			$('#total').load("<?= base_url()?>cart/total");
 			$('#totQty').load("<?= base_url()?>cart/total_qty");
 			$('#totDiskon').load("<?= base_url()?>cart/total_diskon");
