@@ -83,7 +83,7 @@
                                     <th scope="row"><a href="<?= base_url('admin/finance/Jurnal/detail')?>"><b><?= $value['no_jurnal'] ?></b></a></th>
                                     <td><?= $value['tgl_jurnal'] ?></td>
                                     <td><?= $value['sumber'] ?></td>
-                                    <td>Rp. <?= $value['nominal'] ?></td>
+                                    <td>Rp. <?= number_format($value['nominal']) ?></td>
                                     <td><?= $value['keterangan'] ?></td>
                                     <td>
                                         <?php if ($value['sumber'] == 'Jurnal Umum') {
@@ -97,7 +97,7 @@
 									</td>
                                     <td>
                                         <?php if ($value['sumber'] == 'Jurnal Umum') {
-                                            echo 'Transaksi Jurnal';
+                                            echo 'Manual - Transaksi ' . $value['sumber'];
                                         } else if ($value['sumber'] == 'Pembelian' || $value['sumber'] == 'Penjualan'){
                                             echo "Otomatis - Transaksi " . $value['sumber'];
                                         } else {

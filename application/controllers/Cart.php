@@ -68,8 +68,8 @@ class Cart extends CI_Controller {
 		$count = 1;
 		
 		foreach($this->cart->contents() as $items)
-		{
-			if($items['type'] != 'JU') {
+		{ 
+			if(isset($items['type']) && $items['type'] != 'JU') {
 				$select0 = $items['options']['Pajak'] == '0' ? 'selected' : '' ;
 				$select10 = $items['options']['Pajak'] == '10' ? 'selected' : '' ;
 				$select11 = $items['options']['Pajak'] == '11' ? 'selected' : '' ;
@@ -105,7 +105,7 @@ class Cart extends CI_Controller {
 		
 		foreach($this->cart->contents() as $items)
 		{
-			if($items['type'] != 'JU') {
+			if(isset($items['type']) && $items['type'] != 'JU') {
 				$output .= '
 				<tr> 	
 					<td>'.$count++.'</td>
@@ -126,7 +126,7 @@ class Cart extends CI_Controller {
 		
 		foreach($this->cart->contents() as $items)
 		{
-			if($items['type'] != 'JU') {
+			if(isset($items['type']) && $items['type'] != 'JU') {
 				$output .= '
 				<tr> 	
 					<td>'.$count++.'</td>
@@ -165,7 +165,7 @@ class Cart extends CI_Controller {
 		$totDiskon = 0;
 		$totPajak = 0;
 		foreach($this->cart->contents() as $items) {
-			if($items['type'] != 'JU') {
+			if(isset($items['type']) && $items['type'] != 'JU') {
 				$TotalBruto += $items['qty'] * $items['price'];
 				$totDiskon += $items['options']['DiskonNilai'];
 				$totPajak +=  (($items['qty'] * $items['price']) - $items['options']['DiskonNilai']) * ($items['options']['Pajak'] /100) ;
@@ -178,7 +178,7 @@ class Cart extends CI_Controller {
 	{
 		$qtyTot = 0;
 		foreach($this->cart->contents() as $items) {
-			if($items['type'] != 'JU') {
+			if(isset($items['type']) && $items['type'] != 'JU') {
 				$qtyTot += $items['qty'];
 			}
 		}
@@ -188,7 +188,7 @@ class Cart extends CI_Controller {
 	{
 		$totDiskon = 0;
 		foreach($this->cart->contents() as $items) {
-			if($items['type'] != 'JU') {
+			if(isset($items['type']) && $items['type'] != 'JU') {
 				$totDiskon += $items['options']['DiskonNilai'];
 			}
 		}
@@ -198,7 +198,7 @@ class Cart extends CI_Controller {
 	{
 		$totPajak = 0;
 		foreach($this->cart->contents() as $items) {
-			if($items['type'] != 'JU') {
+			if(isset($items['type']) && $items['type'] != 'JU') {
 				$totPajak +=  (($items['qty'] * $items['price']) - $items['options']['DiskonNilai']) * ($items['options']['Pajak'] /100) ;
 			}
 		}
@@ -209,7 +209,7 @@ class Cart extends CI_Controller {
 		// $totProduk = count($this->cart->contents());
 		$totProduk = 0;
 		foreach ($this->cart->contents() as $item) {
-			if ($item['type'] != "JU") {
+			if (isset($items['type']) && $item['type'] != "JU") {
 				$totProduk++;
 			}
 		}
@@ -219,7 +219,7 @@ class Cart extends CI_Controller {
 	{
 		$TotalBruto = 0;
 		foreach($this->cart->contents() as $items) {
-			if ($items['type'] != "JU") {
+			if (isset($items['type']) && $items['type'] != "JU") {
 				$TotalBruto += $items['qty'] * $items['price'];
 			}
 		}
@@ -274,7 +274,7 @@ class Cart extends CI_Controller {
 		$array = array();
 
 		foreach ($cartContents as $item) {
-			if ($item['type'] != "JU") {
+			if (isset($items['type']) && $item['type'] != "JU") {
 				$array[$rowid] = $item;
 			}
 		}
@@ -306,7 +306,7 @@ class Cart extends CI_Controller {
         $pajak =  $this->input->post('pajak');
 		$cartContents = $this->cart->contents();
 		foreach ($cartContents as $item) {	
-			if ($item['type'] != "JU") {
+			if (isset($items['type']) && $item['type'] != "JU") {
 				if($item['rowid'] == $rowid){
 					// Data ditemukan berdasarkan ID
 					$itemData = $item;
@@ -335,14 +335,22 @@ class Cart extends CI_Controller {
        
     }
     function destroyCart(){ //fungsi untuk menghapus item cart
-		
+		// $session_data = $this->session->userdata('cart_contents');
+		// foreach($session_data as $row => $value) {
+		// 	if(is_array($value)) {
+		// 		if($value['type'] != 'JU') {
+		// 			unset($this->session->userdata('cart_contents')[$row]);
+		// 		}
+		// 	}
+		// }
 		// session_destroy();
-        // echo $this->ShowCart();
-		$filteredContents = array_filter($this->cart->contents(), function($item) {
-			return $item->type != "JU";
-		});
+		// $filteredContents = array_filter($this->cart->contents(), function($item) {
+		// 	return $item->type != "JU";
+		// });
 		
-		$this->cart->contents($filteredContents);
+		// $this->cart->contents($filteredContents);
+		$this->session->unset_userdata('cart_contents');
+        echo $this->ShowCart();
     }
     
 	function validasiCart(){ //fungsi untuk menghapus item cart
@@ -376,7 +384,7 @@ class Cart extends CI_Controller {
 		
 		foreach($this->cart->contents() as $items)
 		{
-			if($items['type'] == 'JU') {
+			if(isset($items['type']) && $items['type'] == 'JU') {
 				$output .= '
 				<tr> 	
 					<td>'.$items["akun"].'</td>
@@ -399,7 +407,7 @@ class Cart extends CI_Controller {
 	function totalDebitJU() {
 		$totalDebit = 0;
 		foreach($this->cart->contents() as $items) {
-			if($items['type'] == 'JU') {
+			if(isset($items['type']) && $items['type'] == 'JU') {
 				$totalDebit += $items['debit'];
 			}
 		}
@@ -422,7 +430,7 @@ class Cart extends CI_Controller {
 	function totalKreditJU() {
 		$totalKredit = 0;
 		foreach($this->cart->contents() as $items) {
-			if($items['type'] == 'JU') {
+			if(isset($items['type']) && $items['type'] == 'JU') {
 				$totalKredit += $items['kredit'];
 			}
 		}
@@ -447,7 +455,7 @@ class Cart extends CI_Controller {
 		$totalKredit 	= 0;
 		$totalDebit 	= 0;
 		foreach($this->cart->contents() as $items) {
-			if($items['type'] == 'JU') {
+			if(isset($items['type']) && $items['type'] == 'JU') {
 				$totalKredit += $items['kredit'];
 				$totalDebit += $items['debit'];
 			}

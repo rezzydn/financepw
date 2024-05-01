@@ -54,69 +54,67 @@ class Transaksi extends CI_Controller {
 	}
 	public function addMaster()
 	{
-		//master
-		$NoPesanan 		= $this->input->post('NoPesanan');
-		$Supplier 		= $this->input->post('Supplier');
-		$Lokasi 		= $this->input->post('Lokasi');
-		$TanggalPesanan = $this->input->post('TanggalPesanan');
-		$Status 		= 'Aktif';
-		$NilaiBruto 	= $this->input->post('NilaiBruto');
-		$Diskon 		= $this->input->post('Diskon');
-		$Pajak 			= $this->input->post('Pajak');
-		$Nilai 			= $this->input->post('Nilai');
-		$Keterangan 	= $this->input->post('Keterangan');
-		$Waktu 			= date("Y-m-d H:i:s");
-		$Status1 		= $this->input->post('St');
-		$Status2 		= 'Trans';
-		$StatusInt1 	= 0;
-		$StatusInt2 	= 0;
-		$master = [
-			'no_pesanan' 		=> $NoPesanan,
-			'nama_supplier' 	=> $Supplier,
-			'lokasi' 			=> $Lokasi,
-			'tanggal_pesanan' 	=> $TanggalPesanan,
-			'nilai_bruto' 		=> $NilaiBruto,
-			'status' 			=> $Status,
-			'diskon' 			=> $Diskon,
-			'pajak' 			=> $Pajak,
-			'nilai' 			=> $Nilai,
-			'keterangan' 		=> $Keterangan,
-			'waktu' 			=> $Waktu,
-			'status1' 			=> $Status1,
-			'status2' 			=> $Status2,
-			'StatusInt1' 		=> $StatusInt1,
-			'StatusInt2' 		=> $StatusInt2,
-		];
-		//Detail
-		$detail  = $this->addDetail($NoPesanan,$Status1);
-		// var_dump($detail);die;
-		if ($detail == 'ok') {
-			if ($Status1 == 'Edit') {
-				$this->db->delete('pembelian_master', array('no_pesanan' => $NoPesanan));
-			} 
+		try {
+			$NoPesanan 		= $this->input->post('NoPesanan');
+			$Supplier 		= $this->input->post('Supplier');
+			$Lokasi 		= $this->input->post('Lokasi');
+			$TanggalPesanan = $this->input->post('TanggalPesanan');
+			$Status 		= 'Aktif';
+			$NilaiBruto 	= $this->input->post('NilaiBruto');
+			$Diskon 		= $this->input->post('Diskon');
+			$Pajak 			= $this->input->post('Pajak');
+			$Nilai 			= $this->input->post('Nilai');
+			$Keterangan 	= $this->input->post('Keterangan');
+			$Waktu 			= date("Y-m-d H:i:s");
+			$Status1 		= $this->input->post('St');
+			$Status2 		= 'Trans';
+			$StatusInt1 	= 0;
+			$StatusInt2 	= 0;
+			$master = [
+				'no_pesanan' 		=> $NoPesanan,
+				'nama_supplier' 	=> $Supplier,
+				'lokasi' 			=> $Lokasi,
+				'tanggal_pesanan' 	=> $TanggalPesanan,
+				'nilai_bruto' 		=> $NilaiBruto,
+				'status' 			=> $Status,
+				'diskon' 			=> $Diskon,
+				'pajak' 			=> $Pajak,
+				'nilai' 			=> $Nilai,
+				'keterangan' 		=> $Keterangan,
+				'waktu' 			=> $Waktu,
+				'status1' 			=> $Status1,
+				'status2' 			=> $Status2,
+				'StatusInt1' 		=> $StatusInt1,
+				'StatusInt2' 		=> $StatusInt2,
+			];
+				if ($Status1 == 'Edit') {
+					$this->db->delete('pembelian_master', array('no_pesanan' => $NoPesanan));
+				} 
+	
+				$result 			= $this->db->insert('pembelian_master',$master);
+				$id_data_pembelian 	= $this->db->insert_id();
+				$detail  			= $this->addDetail($NoPesanan,$Status1);
+				if($id_data_pembelian > 0) {
+					$dataJurnalKas = [
+						'id_data_pembelian'  => $id_data_pembelian,
+						'id_perkiraan_akun'	 => KAS,
+						'debit'				 => $Nilai,
+						'kredit'			 => 0,
+					];
+					$statusDataJurnalKas = $this->db->insert('jurnal_pembelian', $dataJurnalKas);
+	
+					$dataJurnalPersediaan = [
+						'id_data_pembelian'  => $id_data_pembelian,
+						'id_perkiraan_akun'	 => PERSEDIAAN_BARANG_DAGANG,
+						'debit'				 => 0,
+						'kredit'			 => $Nilai
+					];
+					$this->db->insert('jurnal_pembelian', $dataJurnalPersediaan);
+				}
 
-			$result 			= $this->db->insert('pembelian_master',$master);
-			$id_data_pembelian 	= $this->db->insert_id();
-			if($id_data_pembelian > 0) {
-				$dataJurnalKas = [
-					'id_data_pembelian'  => $id_data_pembelian,
-					'id_perkiraan_akun'	 => KAS,
-					'debit'				 => $Nilai,
-					'kredit'			 => 0,
-				];
-				$this->db->insert('jurnal_pembelian', $dataJurnalKas);
-
-				$dataJurnalPersediaan = [
-					'id_data_pembelian'  => $id_data_pembelian,
-					'id_perkiraan_akun'	 => PERSEDIAAN_BARANG_DAGANG,
-					'debit'				 => 0,
-					'kredit'			 => $Nilai
-				];
-				$this->db->insert('jurnal_pembelian', $dataJurnalPersediaan);
-			}
-			echo "ok";
-		} else {
-			echo "error";
+			echo "ok";die;
+		} catch (Exception $e) {
+			echo "error";die;
 		}
 	}
 	public function addDetail($NoPesanan,$Status1)
@@ -124,7 +122,7 @@ class Transaksi extends CI_Controller {
 		$data = [];
 		$totQty = [];
 		foreach ($this->cart->contents() as $key => $value) {
-			if($value['type'] != 'JU') {
+			if(isset($value['type']) && $value['type'] != 'JU') {
 				array_push($data , array(
 					'no_pesanan' => $NoPesanan,
 					'id_produk' => $value['id'],
@@ -147,7 +145,6 @@ class Transaksi extends CI_Controller {
 			$this->db->delete('pembelian_detail', array('no_pesanan' => $NoPesanan));
 		} 
 		$result = $this->db->insert_batch('pembelian_detail', $data); 
-		// var_dump($result);die;
 		if ($result) {
 			return "ok";
 		} else {
