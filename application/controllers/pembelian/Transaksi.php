@@ -164,6 +164,7 @@ class Transaksi extends CI_Controller {
 					'price'   => $value->harga,
 					'name'    => $value->nama_produk,
 					'options'    => array('DiskonPrtg' => $value->diskon_prtg ,'DiskonNilai' => $value->diskon_nilai, 'Pajak' => $value->pajak),
+					'type'	=> 'JP'
 					);
 					$this->cart->insert($data);		
 				}	

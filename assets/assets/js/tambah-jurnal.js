@@ -161,3 +161,10 @@ $("#btn-simpan-jurnal-umum").click(function (e) {
 	  })
 	
 });
+
+$("#btn-reset-filter").click(function (e) {
+	e.preventDefault()
+	let url = window.location.href;
+	url 	= url.split('?')[0];
+	window.location.replace(url);
+})

@@ -34,30 +34,45 @@
                             </a>
                         </div>
 
-                        <div class="col-12 col-md-4 col-xl-2">
-                            <div class="input-group align-items-center">
-                                <span class="input-group-text bg-white hp-bg-dark-100 border-end-0 pe-0">
-                                    <i class="iconly-Curved-Calendar text-black-80" style="font-size: 16px;"></i>
-                                </span>
-                                <input type="date" class="form-control border-start-0 ps-8" placeholder="Tanggal Awal">
+                        <form method="GET" class="d-flex" style="width: 100%; margin-top: 10px;">
+                            <div class="col-12 col-md-4 col-xl-2 me-6" style="margin-left: auto;">
+                                <div class="input-group align-items-center">
+                                    <span class="input-group-text bg-white hp-bg-dark-100 border-end-0 pe-0">
+                                        <i class="iconly-Curved-Calendar text-black-80" style="font-size: 16px;"></i>
+                                    </span>
+                                    <input type="date" class="form-control border-start-0 ps-8" placeholder="Tanggal Awal" name="start" 
+                                        value="<?= $start ?>">
+                                </div>
                             </div>
-                        </div>
 
-                        <div class="col-12 col-md-4 col-xl-2">
-                            <div class="input-group align-items-center">
-                                <span class="input-group-text bg-white hp-bg-dark-100 border-end-0 pe-0">
-                                    <i class="iconly-Curved-Calendar text-black-80" style="font-size: 16px;"></i>
-                                </span>
-                                <input type="date" class="form-control border-start-0 ps-8" placeholder="Tanggal Akhir">
+                            <div class="col-12 col-md-4 col-xl-2 me-6">
+                                <div class="input-group align-items-center">
+                                    <span class="input-group-text bg-white hp-bg-dark-100 border-end-0 pe-0">
+                                        <i class="iconly-Curved-Calendar text-black-80" style="font-size: 16px;"></i>
+                                    </span>
+                                    <input type="date" class="form-control border-start-0 ps-8" placeholder="Tanggal Akhir" name="end"
+                                    value="<?= $end ?>">
+                                </div>
                             </div>
-                        </div>
-					
-                        <div class="col hp-flex-none w-auto">
-                            <a href class="btn btn-primary w-60">
-                                <span>Terapkan</span>
-                            </a>
-                        </div>
-					
+                        
+                            <div class="col hp-flex-none w-auto">
+                                <!-- <a href class="btn btn-primary w-60">
+                                    <span>Terapkan</span>
+                                </a> -->
+                                <button type="submit" class="btn btn-primary w-60">
+                                    Terapkan
+                                </button>
+                                <?php 
+                                    if($start && $end) {
+                                ?>
+                                    <button class="btn btn-danger w-60" id="btn-reset-filter">
+                                        Reset
+                                    </button>
+                                <?php 
+                                    }
+                                ?>
+                            </div>
+                        </form>
 						<?php if($this->session->flashdata('success')) { ?>
                                 <?= $this->session->flashdata('success') ?>
                             <?php } ?>

@@ -13,7 +13,9 @@ class Jurnal extends CI_Controller {
 	
 	public function index() 
 	{
-		$data['jurnals'] = $this->M_Jurnal->getAllJurnal();
+		$data['start'] 		= isset($_GET['start']) ? $_GET['start'] : null;
+		$data['end'] 		= isset($_GET['end']) ? $_GET['end'] : null;
+		$data['jurnals'] 	= $this->M_Jurnal->getJurnal($data['start'], $data['end']);
 		// dd($data['jurnals']);
 		$this->load->view('template/header');
 		$this->load->view('template/navbar');
