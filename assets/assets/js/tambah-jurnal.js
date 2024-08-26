@@ -119,42 +119,44 @@ $("#btn-simpan-jurnal-umum").click(function (e) {
 						keterangan:keterangan,
 					},
 				success: function (response) {
-					console.log(response);
-					// if (response == 'ok') {
-					// 	Swal.fire({
-					// 		toast: true,
-					// 		title: 'Berhasil',
-					// 		text: "Transaksi Berhasil",
-					// 		icon: 'success',
-					// 		// showCancelButton: true,
-					// 		confirmButtonColor: '#3085d6',
-					// 		cancelButtonColor: '#d33',
-					// 		confirmButtonText: 'ok!'
-					// 		}).then((result) => {
-					// 		if (result.isConfirmed) {					
-					// 			$.ajax({
-					// 				type: "POST",
-					// 				url:  BASE_URL + '/' + 'cart/destroyCart',
-					// 				success: function (response) {
-					// 					$('#detai_cart').load(BASE_URL + '/' + 'Cart/load_cart_ju');
-					// 					$('#total').load(BASE_URL + '/' + 'Cart/total');
-					// 					$('#totQty').load(BASE_URL + '/' + 'Cart/total_qty');
-					// 					$('#totDiskon').load(BASE_URL + '/' + 'Cart/total_diskon');
-					// 					$('#totPajak').load(BASE_URL + '/' + 'Cart/total_pajak');
-					// 					$('#totProduk').load(BASE_URL + '/' + 'Cart/total_produk');
-					// 					$('#totalBruto').load(BASE_URL + '/' + 'Cart/total_bruto');
-					// 					location.reload();
-					// 				}
-					// 			});
-					// 		}
-					// 	})
-					// } else {
-					// 	Swal.fire({
-					// 		icon: 'error',
-					// 		title: 'Gagal Menambahkan Data!',
-					// 	})
-					// 	// location.reload();
-					// }
+					let resp = JSON.parse(response);
+					console.log(resp);
+					console.log(resp.code);
+					if (resp.code == '200') {
+						Swal.fire({
+							toast: true,
+							title: 'Berhasil',
+							text: "Transaksi Berhasil",
+							icon: 'success',
+							// showCancelButton: true,
+							confirmButtonColor: '#3085d6',
+							cancelButtonColor: '#d33',
+							confirmButtonText: 'ok!'
+							}).then((result) => {
+							if (result.isConfirmed) {					
+								$.ajax({
+									type: "POST",
+									url:  BASE_URL + '/' + 'cart/destroyCart',
+									success: function (response) {
+										$('#detai_cart').load(BASE_URL + '/' + 'Cart/load_cart_ju');
+										$('#total').load(BASE_URL + '/' + 'Cart/total');
+										$('#totQty').load(BASE_URL + '/' + 'Cart/total_qty');
+										$('#totDiskon').load(BASE_URL + '/' + 'Cart/total_diskon');
+										$('#totPajak').load(BASE_URL + '/' + 'Cart/total_pajak');
+										$('#totProduk').load(BASE_URL + '/' + 'Cart/total_produk');
+										$('#totalBruto').load(BASE_URL + '/' + 'Cart/total_bruto');
+										location.reload();
+									}
+								});
+							}
+						})
+					} else {
+						Swal.fire({
+							icon: 'error',
+							title: 'Gagal Menambahkan Data!',
+						})
+						// location.reload();
+					}
 				}
 			});
 		}

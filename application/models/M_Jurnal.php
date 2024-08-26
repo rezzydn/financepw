@@ -39,7 +39,8 @@ class M_Jurnal extends CI_Model {
 
         $sql    = "$sqlJurnalPembelian
                     UNION
-                    $sqlJurnalUmum";
+                    $sqlJurnalUmum
+                    ORDER by no_jurnal DESC LIMIT 10";
         $result = $this->db->query($sql)->result_array(); 
         
         return  $result;

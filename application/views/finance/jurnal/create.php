@@ -102,7 +102,7 @@
                             <h4>Rincian</h4>
                         </div>
                         <div class="col hp-flex-none w-auto">
-                            <a href="<?= base_url('finance/Transaksi')?>" class="btn btn-danger w-100 mb-12" >
+                            <a href="<?= base_url('finance/Jurnal')?>" class="btn btn-danger w-100 mb-12" >
                                 <i class="ri-close-line remix-icon"></i>
                                 <span>Batal</span>
                             </a>
