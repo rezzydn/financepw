@@ -25,39 +25,37 @@ class Transaksi extends CI_Controller {
 		$this->load->model('M_Crud');
 		$this->load->model('M_Transaksi');
 		$this->load->library('cart');
-		// $this->cart->destroy();
-		
-		
+		// $this->cart->destroy();	
 	}
 	
 	public function index()
 	{
-		$data['data'] = $this->M_Crud->get('pembelian_master');
+		$data['data'] = $this->M_Crud->get('penjualan_master');
 
 		$this->load->view('template/header');
 		$this->load->view('template/navbar');
-		$this->load->view('pembelian/transaksi/index',$data);
+		$this->load->view('penjualan/transaksi/index',$data);
 		$this->load->view('template/footer');
 	}
 	public function create()
 	{
-		$Urutan = $this->db->query("select MAX(RIGHT(no_pesanan , 8 )) as kode from pembelian_master")->result();
+		$Urutan = $this->db->query("select MAX(RIGHT(no_pesanan , 8 )) as kode from penjualan_master")->result();
 		$kode = $Urutan[0]->kode + 1;
-		$data['NoTrans'] = "PB-".str_pad($kode, 8, "0", STR_PAD_LEFT);
+		$data['NoTrans'] = "PJ-".str_pad($kode, 8, "0", STR_PAD_LEFT);
 
 		$data['produk'] = $this->M_Transaksi->getProduk();
+		$data['customers'] = $this->M_Crud->get('customer');
 		// $data['NoTrans'] = 
 		$this->load->view('template/header');
 		$this->load->view('template/navbar');
-		$this->load->view('pembelian/transaksi/create',$data);
+		$this->load->view('penjualan/transaksi/create',$data);
 		$this->load->view('template/footer');
 	}
 	public function addMaster()
 	{
 		try {
 			$NoPesanan 		= $this->input->post('NoPesanan');
-			$Supplier 		= $this->input->post('Supplier');
-			$Lokasi 		= $this->input->post('Lokasi');
+			$customer 		= $this->input->post('Customer');
 			$TanggalPesanan = $this->input->post('TanggalPesanan');
 			$Status 		= 'Aktif';
 			$NilaiBruto 	= $this->input->post('NilaiBruto');
@@ -72,8 +70,7 @@ class Transaksi extends CI_Controller {
 			$StatusInt2 	= 0;
 			$master = [
 				'no_pesanan' 		=> $NoPesanan,
-				'nama_supplier' 	=> $Supplier,
-				'lokasi' 			=> $Lokasi,
+				'id_customer' 		=> $customer,
 				'tanggal_pesanan' 	=> $TanggalPesanan,
 				'nilai_bruto' 		=> $NilaiBruto,
 				'status' 			=> $Status,
@@ -87,45 +84,30 @@ class Transaksi extends CI_Controller {
 				'StatusInt1' 		=> $StatusInt1,
 				'StatusInt2' 		=> $StatusInt2,
 			];
-
-			if($Diskon > 0) {
-				$NilaiBruto -= $Diskon;
-			}
-			
-			if ($Status1 == 'Edit') {
-				$this->db->delete('pembelian_master', array('no_pesanan' => $NoPesanan));
-			} 
-
-			$result 			= $this->db->insert('pembelian_master',$master);
-			$id_data_pembelian 	= $this->db->insert_id();
-			$detail  			= $this->addDetail($NoPesanan,$Status1);
-			if($id_data_pembelian > 0) {
-				$arrDataJurnal = [];
-
-				$arrDataJurnal[] = [
-						'id_data_pembelian'  => $id_data_pembelian,
-						'id_perkiraan_akun'	 => PERSEDIAAN_BARANG_DAGANG,
-						'debit'				 => $NilaiBruto,
-						'kredit'			 => 0,
-				];
-
-				if($Pajak > 0) {
-					$arrDataJurnal[] = [
-						'id_data_pembelian'  => $id_data_pembelian,
-						'id_perkiraan_akun'	 => PPN_MASUKAN,
-						'debit'				 => $Pajak,
+				if ($Status1 == 'Edit') {
+					$this->db->delete('penjualan_master', array('no_pesanan' => $NoPesanan));
+				} 
+	
+				$result 			= $this->db->insert('penjualan_master',$master);
+				$id_data_penjualan 	= $this->db->insert_id();
+				$detail  			= $this->addDetail($NoPesanan,$Status1);
+				if($id_data_penjualan > 0) {
+					$dataJurnalKas = [
+						'id_data_penjualan'  => $id_data_penjualan,
+						'id_perkiraan_akun'	 => KAS,
+						'debit'				 => $Nilai,
 						'kredit'			 => 0,
 					];
+					$statusDataJurnalKas = $this->db->insert('jurnal_penjualan', $dataJurnalKas);
+	
+					$dataJurnalPersediaan = [
+						'id_data_penjualan'  => $id_data_penjualan,
+						'id_perkiraan_akun'	 => PENJUALAN,
+						'debit'				 => 0,
+						'kredit'			 => $Nilai
+					];
+					$this->db->insert('jurnal_penjualan', $dataJurnalPersediaan);
 				}
-
-				$arrDataJurnal[] = [
-					'id_data_pembelian'  => $id_data_pembelian,
-					'id_perkiraan_akun'	 => KAS,
-					'debit'				 => 0,
-					'kredit'			 => $Nilai,
-				];
-				$this->db->insert_batch('jurnal_pembelian', $arrDataJurnal);
-			}
 
 			echo "ok";die;
 		} catch (Exception $e) {
@@ -157,9 +139,9 @@ class Transaksi extends CI_Controller {
 			}
 		}
 		if ($Status1 == 'Edit') {
-			$this->db->delete('pembelian_detail', array('no_pesanan' => $NoPesanan));
+			$this->db->delete('penjualan_detail', array('no_pesanan' => $NoPesanan));
 		} 
-		$result = $this->db->insert_batch('pembelian_detail', $data); 
+		$result = $this->db->insert_batch('penjualan_detail', $data); 
 		if ($result) {
 			return "ok";
 		} else {
@@ -168,8 +150,7 @@ class Transaksi extends CI_Controller {
 	}
 
 	function load_detail($no_pesanan) {
-		$detail = $this->M_Transaksi->getDataDetail('pembelian_detail', $no_pesanan);
-		
+		$detail = $this->M_Transaksi->getDataDetail('penjualan_detail', $no_pesanan);
 		// Data Barang
 		if (isset($detail)) {
 			if(empty($this->cart->contents())) {
@@ -193,24 +174,25 @@ class Transaksi extends CI_Controller {
 	public function detail($no_pesanan)
 	{
 		$this->load_detail($no_pesanan);
-		$data['master'] = $this->M_Transaksi->getDataMaster('v_pembelian_master', $no_pesanan);
+		$data['master'] = $this->M_Transaksi->getDataMaster('v_penjualan_master', $no_pesanan);
+		$data['customers'] = $this->M_Crud->get('customer');
 		
-		if (!empty($data['master'])) {
+		if ($data['master']) {
 
 			// $data['supplier'] = $this->M_Supplier->getAll();
 			$data['produk'] = $this->M_Transaksi->getProduk();
 			$this->load->view('template/header');
 			$this->load->view('template/navbar');
-			$this->load->view('pembelian/transaksi/detail',$data);
+			$this->load->view('penjualan/transaksi/detail',$data);
 			$this->load->view('template/footer');
 		}
 
 	}
-
+	
 	public function edit($no_pesanan)
 	{
 		$data['master'] = $this->M_Transaksi->getDataMaster('v_penjualan_master', $no_pesanan);
-		$detail = $this->M_Transaksi->getDataDetail('pembelian_detail', $no_pesanan);
+		$detail = $this->M_Transaksi->getDataDetail('penjualan_detail', $no_pesanan);
 
 		if (!empty($data['master'])) {
 
@@ -218,7 +200,7 @@ class Transaksi extends CI_Controller {
 			$data['produk'] = $this->M_Transaksi->getProduk();
 			$this->load->view('template/header');
 			$this->load->view('template/navbar');
-			$this->load->view('pembelian/transaksi/edit',$data);
+			$this->load->view('penjualan/transaksi/edit',$data);
 			$this->load->view('template/footer');
 		}
 
@@ -244,11 +226,11 @@ class Transaksi extends CI_Controller {
 	function delete($no_pesanan) 
 	{
 		$where = array('no_pesanan' => $no_pesanan);
-		$this->M_Crud->delete($where,"pembelian_master");
-		$this->M_Crud->delete($where,"pembelian_detail");
+		$this->M_Crud->delete($where,"penjualan_master");
+		$this->M_Crud->delete($where,"penjualan_detail");
 		$this->session->set_flashdata('success', '<div style="text-align:center;" class="alert alert-success" role="alert">
-		Data Transaksi Pembelian berhasil dihapus!</div>');
+		Data Transaksi penjualan berhasil dihapus!</div>');
 
-		redirect('pembelian/transaksi');
+		redirect('penjualan/transaksi');
 	}
 }

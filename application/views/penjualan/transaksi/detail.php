@@ -1,11 +1,10 @@
 <div class="hp-main-layout-content">
-
     <div class="row mb-32 gy-32">
         <div class="col-12">
             <nav aria-label="breadcrumb">
                 <ol class="breadcrumb">
                     <li class="breadcrumb-item">
-                        <a href="<?= base_url('admin/Dashboard')?>">Home</a> / <a href="<?= base_url('pembelian/Transaksi')?>">Pembelian</a> /	Tambah Data 
+                        <a href="<?= base_url('Dashboard')?>">Home</a> / <a href="<?= base_url('pembelian/Transaksi')?>">Pembelian</a> /	Detail
                     </li>
                 </ol>
             </nav>
@@ -18,6 +17,13 @@
                         <div class="col pe-md-32 pe-md-120">
                             <h4>Daftar Transaksi</h4>
                         </div>
+
+                        <!-- <div class="col hp-flex-none w-auto">
+                            <a href="<?= base_url('pembelian/Transaksi')?>" class="btn btn-danger w-100" >
+                                <i class="ri-user-add-line remix-icon"></i>
+                                <span>Batal</span>
+                            </a>
+                        </div> -->
 						<div class="col-12 mt-16">
 						<form>
 						<div class="modal-body">
@@ -27,29 +33,19 @@
 										<label for="name" class="form-label">
 											No. Pesanan
 										</label>
-										<input type="text" class="form-control" name="NoPesanan" id="NoPesanan" value="<?= $NoTrans ?>" readonly>
-										<input type="hidden" class="form-control" name="NoPesanan" id="St" value="New" readonly>
+										<input type="text" class="form-control" name="NoPesanan" id="NoPesanan" value="<?= $master[0]->no_pesanan ?>" disabled>
+										<input type="hidden" class="form-control" name="NoPesanan" id="St" value="New" disabled>
 									</div>
 								</div>
 
 								<div class="col-12 col-md-6">
-								<div class="mb-24">
-									<label class="form-label">Supplier</label>
-									<select class="form-select" id="Supplier" name="nama_supplier" >
-										<option selected hidden>--Pilih--</option>
-										<option value="Supplier">Supplier</option>
-									</select>
-								</div>
-								</div>
-
-								<div class="col-12 col-md-6">
 									<div class="mb-24">
-										<label for="email" class="form-label">
-											<span class="text-danger me-4">*</span>
-											Lokasi
-										</label>
-										<select class="form-select" name="lokasi" id="Lokasi" >
-											<option value="Gundang" selected>Gudang</option>
+										<label class="form-label">Customer</label>
+										<select class="form-select" id="customer" name="id_customer" disabled>
+											<option selected hidden>--Pilih--</option>
+											<?php foreach($customers as $customer) { ?>
+												<option <?= $customer->idCustomer == $master[0]->id_customer ? 'selected' : '' ?> value="<?= $customer->idCustomer ?>"><?= $customer->kode . "-" . $customer->nama ?></option>										
+											<?php }?>
 										</select>
 									</div>
 								</div>
@@ -60,27 +56,27 @@
 											<span class="text-danger me-4">*</span>
 											Tanggal Pesanan
 										</label>
-										<input type="date" class="form-control" name="tanggal_pesanan" id="TanggalPesanan" placeholder="Tanggal Pesanan ..">
+										<input type="date" class="form-control" name="tanggal_pesanan" id="TanggalPesanan" placeholder="Tanggal Pesanan .." disabled>
 									</div>
 								</div>
-								<div class="col-12 col-md-12">
+								<div class="col-12 col-md-6">
 									<div class="mb-24">
 										<label for="name" class="form-label">
 											Keterangan
 										</label>
-										<textarea type="text" class="form-control" name="keterangan" id="Keterangan" placeholder="Keterangan .."></textarea>
+										<textarea type="text" class="form-control" name="keterangan" id="Keterangan" placeholder="Keterangan .." disabled></textarea>
 									</div>
 								</div>
 
 							</div>
 						</div>
-						<div>
+						<!-- <div>
 							<div class="divider"></div>
 							<button type="button" class="btn btn-primary mb-24" data-bs-toggle="modal" data-bs-target="#modal_barang">
                                 <i class="ri-user-add-line remix-icon"></i>
                                 <span>Tambah Data</span>
                             </button>
-						</div>
+						</div> -->
 						<table class="table table-hover table-striped">
                                 <thead>
                                     <tr>
@@ -100,7 +96,7 @@
 								<tfoot>
 									<tr>
 										<td colspan="8">
-											<button id="clear-cart" class="btn btn-warning">clear</button>
+											<!-- <button id="clear-cart" class="btn btn-warning" disabled>clear</button> -->
 										</td>
 									</tr>
 								</tfoot>
@@ -120,9 +116,9 @@
                             <h4>Rincian</h4>
                         </div>
                         <div class="col hp-flex-none w-auto">
-                            <a href="<?= base_url('pembelian/Transaksi')?>" class="btn btn-danger w-100 mb-12" >
+                            <a href="<?= base_url('penjualan/Transaksi/edit/'.$this->uri->segment(4))?>" class="btn btn-warning w-100 mb-12" >
                                 <i class="ri-user-add-line remix-icon"></i>
-                                <span>Batal</span>
+                                <span>Edit</span>
                             </a>
                         </div>
 						<hr>
@@ -151,13 +147,13 @@
 								</div>
 							</div>						
 						</div>
-						<div class="col-12 mt-16">
+						<!-- <div class="col-12 mt-16">
 							<div class="col-12 col-md-12 ">
 								<div class="row mb-24">
-									<button type="button" class="btn btn-success" id="btn-simpan-pembelian">Simpan</button>
+									<button type="button" class="btn btn-success" id="btn-simpan-pembelian" disabled>Simpan</button>
 								</div>
 							</div>						
-						</div>
+						</div> -->
                     </div>
                 </div>
             </div>
@@ -194,7 +190,7 @@
 							<td><?= $pro->category ?></td>
 							<td><?= $pro->price ?></td>
 							<td>
-								<button type="button" class="btn btn-primary "
+								<button type="button" class="btn btn-primary"
 								data-id="<?= $pro->id ?>" 
 								data-name="<?= $pro->product_name ?>" 
 								data-price="<?= $pro->price ?>" 

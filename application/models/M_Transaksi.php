@@ -14,16 +14,16 @@ class M_Transaksi extends CI_Model {
 		return $query->result(); 
 	}
 	
-	public function getDataMaster($no_pesanan){
+	public function getDataMaster($table, $no_pesanan){
 		
 		$this->db->where('no_pesanan', $no_pesanan);
-		$query = $this->db->get('v_pembelian_master');
+		$query = $this->db->get($table);
 		return $query->result(); 
 	}
-	public function getDataDetail($no_pesanan){
+	public function getDataDetail($table, $no_pesanan){
 
 		$this->db->where('no_pesanan', $no_pesanan);
-		$query = $this->db->get('pembelian_detail');
+		$query = $this->db->get($table);
 		return $query->result(); 
 	}
 	

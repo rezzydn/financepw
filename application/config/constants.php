@@ -87,3 +87,6 @@ defined('EXIT__AUTO_MAX')      OR define('EXIT__AUTO_MAX', 125); // highest auto
 // RULE PERKIRAAN AKUN 
 define('KAS', '5');
 define('PERSEDIAAN_BARANG_DAGANG', '42');
+define('PPN_MASUKAN', '79');
+define('HUTANG_DAGANG', '49');
+define('PENJUALAN', '54');

@@ -138,7 +138,7 @@
 
                                         <ul class="dropdown-menu">
                                             <li class="dropend">
-                                                <a href="page-landing.html">
+                                                <a href="<?= base_url('penjualan/Transaksi')?>">
                                                     <span>
                                                         <i class="iconly-Light-Swap"></i>
                                                         <span>Transaksi Penjualan</span>

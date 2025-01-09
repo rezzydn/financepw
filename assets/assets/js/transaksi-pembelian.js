@@ -1,24 +1,30 @@
+const uriSegments = window.location.pathname.split('/');
+const BASE_URL = window.location.origin + '/' + uriSegments[1];
+
+function callResponseForSummary() {
+	$('#detai_cart').load(BASE_URL + '/' + 'Cart/load_cart');
+	$('#total').load(BASE_URL + '/' + 'Cart/total');
+	$('#totQty').load(BASE_URL + '/' + 'Cart/total_qty');
+	$('#totDiskon').load(BASE_URL + '/' + 'Cart/total_diskon');
+	$('#totPajak').load(BASE_URL + '/' + 'Cart/total_pajak');
+	$('#totProduk').load(BASE_URL + '/' + 'Cart/total_produk');
+	$('#totalBruto').load(BASE_URL + '/' + 'Cart/total_bruto');	
+}
 
 function pilihProdukPembelian(element) {
-	
 	const id = $(element).data('id');
 	const name = $(element).data('name');
 	const price = $(element).data('price');
-	var uriSegments = window.location.pathname.split('/');
-	var BASE_URL = window.location.origin + '/' + uriSegments[1];
 	$.ajax({
 		type: "POST",
 		url:  BASE_URL + '/' + 'Cart/add',
 		data: {"id" : id, "name" : name, "price" : price},
 		success: function (response) {
 			$('#modal_barang').modal('hide');			
-			$('#detai_cart').load(BASE_URL + '/' + 'Cart/load_cart');
-			$('#total').load(BASE_URL + '/' + 'Cart/total');
-			$('#totQty').load(BASE_URL + '/' + 'Cart/total_qty');
-			$('#totDiskon').load(BASE_URL + '/' + 'Cart/total_diskon');
-			$('#totPajak').load(BASE_URL + '/' + 'Cart/total_pajak');
-			$('#totProduk').load(BASE_URL + '/' + 'Cart/total_produk');
-			$('#totalBruto').load(BASE_URL + '/' + 'Cart/total_bruto');	
+			callResponseForSummary()
+		},
+		error: function (xhr, status, error) {
+			console.error("AJAX Error: ", status, error);
 		}
 	});
 }
@@ -26,19 +32,11 @@ function pilihProdukPembelian(element) {
 $('#clear-cart').click(function (e) { 
 	e.preventDefault();
 
-	var uriSegments = window.location.pathname.split('/');
-	var BASE_URL = window.location.origin + '/' + uriSegments[1];
 	$.ajax({
 		type: "POST",
 		url:  BASE_URL + '/' + 'Cart/destroyCart',
 		success: function (response) {
-			$('#detai_cart').load(BASE_URL + '/' + 'Cart/load_cart');
-			$('#total').load(BASE_URL + '/' + 'Cart/total');
-			$('#totQty').load(BASE_URL + '/' + 'Cart/total_qty');
-			$('#totDiskon').load(BASE_URL + '/' + 'Cart/total_diskon');
-			$('#totPajak').load(BASE_URL + '/' + 'Cart/total_pajak');
-			$('#totProduk').load(BASE_URL + '/' + 'Cart/total_produk');
-			$('#totalBruto').load(BASE_URL + '/' + 'Cart/total_bruto');
+			callResponseForSummary()
 		}
 	});
 });
@@ -46,21 +44,13 @@ $('#clear-cart').click(function (e) {
 //hapus row di detail cart
 $(document).on('click','.hapus_cart',function(e){
 	e.preventDefault();
-	var uriSegments = window.location.pathname.split('/');
-	var BASE_URL = window.location.origin + '/' + uriSegments[1];
 	var row_id=$(this).attr("id"); 
 	$.ajax({
 		url:  BASE_URL + '/' + 'Cart/hapus_cart',
 		method : "POST",
 		data : {row_id : row_id},
 		success :function(res){			
-			$('#detai_cart').load(BASE_URL + '/' + 'Cart/load_cart');
-			$('#total').load(BASE_URL + '/' + 'Cart/total');
-			$('#totQty').load(BASE_URL + '/' + 'Cart/total_qty');
-			$('#totDiskon').load(BASE_URL + '/' + 'Cart/total_diskon');
-			$('#totPajak').load(BASE_URL + '/' + 'Cart/total_pajak');
-			$('#totProduk').load(BASE_URL + '/' + 'Cart/total_produk');
-			$('#totalBruto').load(BASE_URL + '/' + 'Cart/total_bruto');
+			callResponseForSummary()
 		}
 	});
 });
@@ -68,26 +58,32 @@ $(document).on('click','.hapus_cart',function(e){
 //update qty
 
 function Qty(element){
-	// 
-	console.log(element);
     var rowid =  $(element).data('id');
     var qty=  $(element).val(); 
-	var uriSegments = window.location.pathname.split('/');
-	var BASE_URL = window.location.origin + '/' + uriSegments[1];
-	// console.log(qty);
+
+	let listId = $(element).data('list_id')
+	let diskonPrtg = $(`.diskonPrtg_${listId}`).val()
+	let productPrice = $(element).data('price');
+	let pajak = $(`.pajak_${listId}`).val()
+
     //mengambil row_id dari artibut id
 	$.ajax({
 		url:  BASE_URL + '/' + 'Cart/update_qty',
 		method : "POST",
-		data : {rowid:rowid,qty:qty},
+		data : {rowid:rowid,qty:qty,pajak:pajak},
 		success :function(data){		
-			$('#detai_cart').load(BASE_URL + '/' + 'Cart/load_cart');
-			$('#total').load(BASE_URL + '/' + 'Cart/total');
-			$('#totQty').load(BASE_URL + '/' + 'Cart/total_qty');
-			$('#totDiskon').load(BASE_URL + '/' + 'Cart/total_diskon');
-			$('#totPajak').load(BASE_URL + '/' + 'Cart/total_pajak');
-			$('#totProduk').load(BASE_URL + '/' + 'Cart/total_produk');
-			$('#totalBruto').load(BASE_URL + '/' + 'Cart/total_bruto');
+			callResponseForSummary()
+
+			if(diskonPrtg > 0) {
+				$.ajax({
+					url:  BASE_URL + '/' + 'Cart/update_diskonPrtg',
+					method : "POST",
+					data : {rowid:rowid,diskonPrtg:diskonPrtg,productPrice:productPrice,qty:qty,pajak:pajak},
+					success :function(data){
+						callResponseForSummary()
+					}
+				});
+			}
 		}
 	});
 }
@@ -96,69 +92,64 @@ function DiskonPresentage(element){
 	
     var rowid =  $(element).data('id');
     var diskonPrtg=  $(element).val(); 
-	var uriSegments = window.location.pathname.split('/');
-	var BASE_URL = window.location.origin + '/' + uriSegments[1];
-	console.log(diskonPrtg);
+
+	let listId = $(element).data('list_id')
+	let qty = $(`.qty_${listId}`).data('qty')
+	let productPrice = $(element).data('price');
+	let pajak = $(`.pajak_${listId}`).val()
+
     //mengambil row_id dari artibut id
 	$.ajax({
 		url:  BASE_URL + '/' + 'Cart/update_diskonPrtg',
 		method : "POST",
-		data : {rowid:rowid,diskonPrtg:diskonPrtg},
+		data : {rowid:rowid,diskonPrtg:diskonPrtg,productPrice:productPrice,qty:qty,pajak:pajak},
 		success :function(data){
-			$('#detai_cart').load(BASE_URL + '/' + 'Cart/load_cart');
-			$('#total').load(BASE_URL + '/' + 'Cart/total');
-			$('#totQty').load(BASE_URL + '/' + 'Cart/total_qty');
-			$('#totDiskon').load(BASE_URL + '/' + 'Cart/total_diskon');
-			$('#totPajak').load(BASE_URL + '/' + 'Cart/total_pajak');
-			$('#totProduk').load(BASE_URL + '/' + 'Cart/total_produk');
-			$('#totalBruto').load(BASE_URL + '/' + 'Cart/total_bruto');
+			callResponseForSummary()
 		}
 	});
 }
+
 function DiskonNilai(element){
 	
     var rowid =  $(element).data('id');
     var DiskonNilai=  $(element).val(); 
-	var uriSegments = window.location.pathname.split('/');
-	var BASE_URL = window.location.origin + '/' + uriSegments[1];
-	// console.log(DiskonNilai);
     //mengambil row_id dari artibut id
 	$.ajax({
 		url:  BASE_URL + '/' + 'Cart/update_DiskonNilai',
 		method : "POST",
 		data : {rowid:rowid,diskonNilai:DiskonNilai},
 		success :function(data){
-			$('#detai_cart').load(BASE_URL + '/' + 'Cart/load_cart');
-			$('#total').load(BASE_URL + '/' + 'Cart/total');
-			$('#totQty').load(BASE_URL + '/' + 'Cart/total_qty');
-			$('#totDiskon').load(BASE_URL + '/' + 'Cart/total_diskon');
-			$('#totPajak').load(BASE_URL + '/' + 'Cart/total_pajak');
-			$('#totProduk').load(BASE_URL + '/' + 'Cart/total_produk');
-			$('#totalBruto').load(BASE_URL + '/' + 'Cart/total_bruto');
+			callResponseForSummary()
 		}
 	});
 }
-$(document).on('change','.Pajak',function(e){ 
-	e.preventDefault();
+$(document).on('change','.Pajak',function(element){ 
+	element.preventDefault();
 	console.log('ok');
 	var rowid =  $(this).data('id');
     var Pajak =  $(this).val(); 
-	var uriSegments = window.location.pathname.split('/');
-	var BASE_URL = window.location.origin + '/' + uriSegments[1];
-	console.log(Pajak);
+
+	let listId = $(this).data('list_id')
+	let diskonNilai = $(`.diskonNilai_${listId}`).val()
+	let diskonPrtg = $(`.diskonPrtg_${listId}`).val()
+	let qty = $(`.qty_${listId}`).data('qty')
+	let productPrice = $(`.qty_${listId}`).data('price')
+
+
     //mengambil row_id dari artibut id
 	$.ajax({
 		url:  BASE_URL + '/' + 'Cart/update_Pajak',
 		method : "POST",
-		data : {rowid:rowid,pajak:Pajak},
+		data : {
+				rowid:rowid,
+				pajak:Pajak,
+				qty:qty,
+				productPrice:productPrice,
+				diskonPrtg: diskonPrtg,
+				diskonNilai: diskonNilai
+			},
 		success :function(data){
-			$('#detai_cart').load(BASE_URL + '/' + 'Cart/load_cart');
-			$('#total').load(BASE_URL + '/' + 'Cart/total');
-			$('#totQty').load(BASE_URL + '/' + 'Cart/total_qty');
-			$('#totDiskon').load(BASE_URL + '/' + 'Cart/total_diskon');
-			$('#totPajak').load(BASE_URL + '/' + 'Cart/total_pajak');
-			$('#totProduk').load(BASE_URL + '/' + 'Cart/total_produk');
-			$('#totalBruto').load(BASE_URL + '/' + 'Cart/total_bruto');
+			callResponseForSummary()
 		}
 	});
 });
@@ -174,14 +165,7 @@ function Pajak(element){
 		method : "POST",
 		data : {rowid:rowid,pajak:Pajak},
 		success :function(data){
-			// console.log(data);
-			$('#detai_cart').load(BASE_URL + '/' + 'Cart/load_cart');
-			$('#total').load(BASE_URL + '/' + 'Cart/total');
-			$('#totQty').load(BASE_URL + '/' + 'Cart/total_qty');
-			$('#totDiskon').load(BASE_URL + '/' + 'Cart/total_diskon');
-			$('#totPajak').load(BASE_URL + '/' + 'Cart/total_pajak');
-			$('#totProduk').load(BASE_URL + '/' + 'Cart/total_produk');
-			$('#totalBruto').load(BASE_URL + '/' + 'Cart/total_bruto');
+			callResponseForSummary()
 		}
 	});
 }
@@ -259,13 +243,7 @@ $("#btn-simpan-pembelian").click(function (e) {
 									type: "POST",
 									url:  BASE_URL + '/' + 'cart/destroyCart',
 									success: function (response) {
-										$('#detai_cart').load(BASE_URL + '/' + 'Cart/load_cart');
-										$('#total').load(BASE_URL + '/' + 'Cart/total');
-										$('#totQty').load(BASE_URL + '/' + 'Cart/total_qty');
-										$('#totDiskon').load(BASE_URL + '/' + 'Cart/total_diskon');
-										$('#totPajak').load(BASE_URL + '/' + 'Cart/total_pajak');
-										$('#totProduk').load(BASE_URL + '/' + 'Cart/total_produk');
-										$('#totalBruto').load(BASE_URL + '/' + 'Cart/total_bruto');
+										callResponseForSummary()
 										location.reload();
 									}
 								});

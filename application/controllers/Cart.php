@@ -37,7 +37,6 @@ class Cart extends CI_Controller {
 	}
 	public function add()
 	{
-		
 		$data = array(
 			'id'      => $this->input->post('id'),
 			'qty'     => 1,
@@ -46,7 +45,8 @@ class Cart extends CI_Controller {
 			'options'    => array('DiskonPrtg' => 0,'DiskonNilai' => 0, 'Pajak' => 0),
 			'type'	  => 'JP'
 		);
-		$this->cart->insert($data);		
+
+		$resp = $this->cart->insert($data);		
 		echo $this->ShowCart();
 	}	
 	public function add_retur()
@@ -67,6 +67,7 @@ class Cart extends CI_Controller {
 		$output = '';
 		$count = 1;
 		
+		$listId = 0;
 		foreach($this->cart->contents() as $items)
 		{ 
 			if(isset($items['type']) && $items['type'] != 'JU') {
@@ -79,11 +80,11 @@ class Cart extends CI_Controller {
 					<td>'.$count++.'</td>
 					<td>'.$items["name"].'</td>
 					<td>'.$items["price"].'</td>
-					<td><input style="width: 100px;" type="number"  value="'.$items['qty'].'" id="qty"  data-id="'.$items['rowid'].'" data-qty="'.$items["qty"].'" onchange="Qty(this)"></td>
-					<td><input style="width: 100px;" type="number"  value="'.round($items["options"]["DiskonPrtg"],2).'" id="diskonPrtg"  data-id="'.$items['rowid'].'" data-diskonPrtg="'.$items["options"]["DiskonPrtg"].'" onchange="DiskonPresentage(this)"></td>
-					<td><input style="width: 100px;" type="number"  value="'.$items["options"]["DiskonNilai"].'" id="diskonNilai"  data-id="'.$items['rowid'].'" data-diskon="'.$items["options"]["DiskonNilai"].'" onchange="DiskonNilai(this)"></td>
+					<td><input style="width: 100px;" type="number" class="qty_'.$listId.'" value="'.$items['qty'].'" id="qty" data-list_id="'.$listId.'" data-id="'.$items['rowid'].'" data-qty="'.$items["qty"].'" data-price="'.$items['price'].'" onchange="Qty(this)"></td>
+					<td><input style="width: 100px;" type="number" class="diskonPrtg_'.$listId.'" value="'.round($items["options"]["DiskonPrtg"],2).'" data-list_id="'.$listId.'" id="diskonPrtg"  data-id="'.$items['rowid'].'" data-diskonPrtg="'.$items["options"]["DiskonPrtg"].'" data-price="'.$items['price'].'" onchange="DiskonPresentage(this)"></td>
+					<td><input style="width: 100px;" type="number" class="diskonNilai_'.$listId.'" value="'.$items["options"]["DiskonNilai"].'" id="diskonNilai" data-list_id="'.$listId.'" data-id="'.$items['rowid'].'" data-diskon="'.$items["options"]["DiskonNilai"].'" onchange="DiskonNilai(this)" readonly></td>
 					<td>
-						<select data-id="'.$items['rowid'].'" class="Pajak">
+						<select class="Pajak pajak_'.$listId.'" data-id="'.$items['rowid'].'" data-list_id="'.$listId.'">
 							<option value="0" '.$select0.'>0 %</option>
 							<option value="10" '.$select10.'>10 %</option>
 							<option value="11" '.$select11.'>11 %</option>
@@ -93,6 +94,8 @@ class Cart extends CI_Controller {
 					Batal</button></td>	
 				</tr>
 				';
+
+				$listId++;
 			}
 		}
 		
@@ -208,8 +211,8 @@ class Cart extends CI_Controller {
 	{
 		// $totProduk = count($this->cart->contents());
 		$totProduk = 0;
-		foreach ($this->cart->contents() as $item) {
-			if (isset($items['type']) && $item['type'] != "JU") {
+		foreach ($this->cart->contents() as $items) {
+			if (isset($items['type']) && $items['type'] != "JU") {
 				$totProduk++;
 			}
 		}
@@ -256,10 +259,15 @@ class Cart extends CI_Controller {
 		
         $rowid =  $this->input->post('rowid');
         $DiskonPrtg =  $this->input->post('diskonPrtg');
+		$productPrice = $this->input->post('productPrice');
+		$qty = $this->input->post('qty');
+		$pajak = $this->input->post('pajak');
+
+		$diskonNilai = $DiskonPrtg/100*($productPrice*$qty);
 
 		$data = array(
             'rowid' => $rowid, 
-			'options'    => array('DiskonPrtg' => $DiskonPrtg,'DiskonNilai' => 0, 'Pajak' => 0),
+			'options'    => array('DiskonPrtg' => $DiskonPrtg,'DiskonNilai' => $diskonNilai, 'Pajak' => $pajak),
         );
 		
         $this->cart->update($data);
@@ -304,6 +312,10 @@ class Cart extends CI_Controller {
 		
         $rowid =  $this->input->post('rowid');
         $pajak =  $this->input->post('pajak');
+		$diskonNilai = $this->input->post('diskonNilai');
+		$diskonPrtg = $this->input->post('diskonPrtg');
+		$qty = $this->input->post('qty');
+
 		$cartContents = $this->cart->contents();
 		foreach ($cartContents as $item) {	
 			if (isset($items['type']) && $item['type'] != "JU") {
@@ -317,7 +329,7 @@ class Cart extends CI_Controller {
 		// var_dump($itemData);die;
 		$data = array(
             'rowid' => $rowid, 
-			'options' => array('DiskonPrtg' => $itemData['options']['DiskonPrtg'],'DiskonNilai' => $itemData['options']['DiskonNilai'], 'Pajak' => intval($pajak)),
+			'options' => array('DiskonPrtg' => $diskonPrtg,'DiskonNilai' => $diskonNilai, 'Pajak' => intval($pajak)),
         );
 		// var_dump($data);die;
         $this->cart->update($data);
