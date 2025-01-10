@@ -80,6 +80,7 @@
 			$('#totalBruto').load("<?= base_url()?>cart/total_bruto");
 		});	
 		$(document).ready(function () {
+            console.log("Loading URL:", "<?= base_url()?>cart/load_cart_pesanan");
 			$('#cart_pesanan').load("<?= base_url()?>cart/load_cart_pesanan");
 		});
 		$(document).ready(function () {

@@ -20,7 +20,7 @@ class M_Jurnal extends CI_Model {
                                 FROM 
                                     pembelian_master pm 
                                 INNER JOIN 
-                                    (SELECT * FROM jurnal_pembelian LIMIT 1) jp 
+                                    (SELECT DISTINCT id_data_pembelian FROM jurnal_pembelian) jp 
                                 ON jp.id_data_pembelian = pm.id
                                 $jpConditionDate";
 
@@ -40,7 +40,7 @@ class M_Jurnal extends CI_Model {
         $sql    = "$sqlJurnalPembelian
                     UNION
                     $sqlJurnalUmum
-                    ORDER by no_jurnal DESC LIMIT 10";
+                    ORDER by no_jurnal DESC";
         $result = $this->db->query($sql)->result_array(); 
         
         return  $result;

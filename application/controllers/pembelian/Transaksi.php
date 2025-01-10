@@ -41,6 +41,7 @@ class Transaksi extends CI_Controller {
 	}
 	public function create()
 	{
+		$this->cart->destroy();	
 		$Urutan = $this->db->query("select MAX(RIGHT(no_pesanan , 8 )) as kode from pembelian_master")->result();
 		$kode = $Urutan[0]->kode + 1;
 		$data['NoTrans'] = "PB-".str_pad($kode, 8, "0", STR_PAD_LEFT);
@@ -91,7 +92,7 @@ class Transaksi extends CI_Controller {
 			if($Diskon > 0) {
 				$NilaiBruto -= $Diskon;
 			}
-			
+
 			if ($Status1 == 'Edit') {
 				$this->db->delete('pembelian_master', array('no_pesanan' => $NoPesanan));
 			} 
@@ -168,6 +169,7 @@ class Transaksi extends CI_Controller {
 	}
 
 	function load_detail($no_pesanan) {
+		$this->cart->destroy();	
 		$detail = $this->M_Transaksi->getDataDetail('pembelian_detail', $no_pesanan);
 		
 		// Data Barang

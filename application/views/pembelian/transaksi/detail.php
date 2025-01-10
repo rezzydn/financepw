@@ -17,13 +17,6 @@
                         <div class="col pe-md-32 pe-md-120">
                             <h4>Daftar Transaksi</h4>
                         </div>
-
-                        <!-- <div class="col hp-flex-none w-auto">
-                            <a href="<?= base_url('pembelian/Transaksi')?>" class="btn btn-danger w-100" >
-                                <i class="ri-user-add-line remix-icon"></i>
-                                <span>Batal</span>
-                            </a>
-                        </div> -->
 						<div class="col-12 mt-16">
 						<form>
 						<div class="modal-body">
@@ -56,7 +49,6 @@
 											Lokasi
 										</label>
 										<select class="form-select" name="lokasi" id="Lokasi" disabled>
-											<!-- <option selected hidden>--Pilih--</option> -->
 											<option value="<?= $master[0]->lokasi?>" selected><?= $master[0]->lokasi?></option>
 										</select>
 									</div>
@@ -82,13 +74,6 @@
 
 							</div>
 						</div>
-						<!-- <div>
-							<div class="divider"></div>
-							<button type="button" class="btn btn-primary mb-24" data-bs-toggle="modal" data-bs-target="#modal_barang">
-                                <i class="ri-user-add-line remix-icon"></i>
-                                <span>Tambah Data</span>
-                            </button>
-						</div> -->
 						<table class="table table-hover table-striped">
                                 <thead>
                                     <tr>
@@ -159,13 +144,6 @@
 								</div>
 							</div>						
 						</div>
-						<!-- <div class="col-12 mt-16">
-							<div class="col-12 col-md-12 ">
-								<div class="row mb-24">
-									<button type="button" class="btn btn-success" id="btn-simpan-pembelian" disabled>Simpan</button>
-								</div>
-							</div>						
-						</div> -->
                     </div>
                 </div>
             </div>

@@ -108,7 +108,7 @@ class Cart extends CI_Controller {
 		
 		foreach($this->cart->contents() as $items)
 		{
-			if(isset($items['type']) && $items['type'] != 'JU') {
+			if(isset($items['type']) && $items['type'] == 'GUDANG_MASUK') {
 				$output .= '
 				<tr> 	
 					<td>'.$count++.'</td>

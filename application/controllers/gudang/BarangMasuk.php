@@ -7,6 +7,7 @@ class BarangMasuk extends CI_Controller {
 	public function __construct() {
 		parent::__construct();
 		$this->load->model('M_Gudang');
+		$this->second = $this->load->database('second', TRUE);
 		$this->load->model('M_Transaksi');
 		// var_dump($this->cart->contents());die;
 	}
@@ -35,8 +36,8 @@ class BarangMasuk extends CI_Controller {
 	{
 		$this->cart->destroy();
 		$data['data'] = $this->M_Gudang->getGudangMasuk();
-		$data['master'] = $this->M_Transaksi->getDataMaster($no_pesanan);
-		$detail = $this->M_Transaksi->getDataDetail($no_pesanan);
+		$data['master'] = $this->M_Transaksi->getDataMaster('v_pembelian_master', $no_pesanan);
+		$detail = $this->M_Transaksi->getDataDetail('pembelian_detail', $no_pesanan);
 		$data['id_produk'] = $detail[0]->id_produk;
 		$pesanan = $this->M_Gudang->getById('gudang_masuk',array('no_pesanan' => $no_pesanan));
 		$qty_tot = 0;
@@ -49,9 +50,8 @@ class BarangMasuk extends CI_Controller {
 		} else {
 				$qty_tot = $data['master'][0]->qty;
 		}
-			
-		if (!empty($data['master'])) {
 
+		if (!empty($data['master'])) {
 			// $data['supplier'] = $this->M_Supplier->getAll();
 			$data['produk'] = $this->M_Transaksi->getProduk();
 			$this->load->view('template/header');
@@ -70,6 +70,7 @@ class BarangMasuk extends CI_Controller {
 					'price'   => $value->harga,
 					'name'    => $value->nama_produk,
 					'options'    => array('DiskonPrtg' => 0,'DiskonNilai' => 0, 'Pajak' => 0,'qty_diterima' => $qty_tot),
+					'type'	=> 'GUDANG_MASUK'
 					);
 					$this->cart->insert($data);		
 				}	
@@ -77,7 +78,6 @@ class BarangMasuk extends CI_Controller {
 		} else {
 			echo 'Kosong';
 		}	
-		
 	}
 	public function penerimaanBarang()
 	{
@@ -164,6 +164,10 @@ class BarangMasuk extends CI_Controller {
 				
 				$this->db->where('no_pesanan',$no_pesanan);
 				$update  = $this->db->update('pembelian_master');
+
+				$this->second->set('stock', 'stock + ' . (int)$qtyDiterima, FALSE) 
+								->where('id', $IdProduk) 
+								->update('products'); 
 				echo "ok";
 			} else {
 				echo "error";
