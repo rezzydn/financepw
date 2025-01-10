@@ -30,6 +30,7 @@ class Transaksi extends CI_Controller {
 	
 	public function index()
 	{
+		$this->cart->destroy();
 		$data['data'] = $this->M_Crud->get('penjualan_master');
 
 		$this->load->view('template/header');

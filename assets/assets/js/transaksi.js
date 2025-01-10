@@ -170,21 +170,7 @@ function Pajak(element){
 	});
 }
 
-//store transaksi pembelian
-$("#btn-simpan-pembelian").click(function (e) { 
-	e.preventDefault();
-	const NoPesanan = $('#NoPesanan').val();
-	const St = $('#St').val();
-	const Supplier = $('#Supplier option:selected').val();
-	const Lokasi = $('#Lokasi option:selected').val();
-	const TanggalPesanan = $('#TanggalPesanan').val();
-	const Keterangan = $('#Keterangan').val();
-	const NilaiBruto = $('#totalBruto').text().replace(/[.,]/g, '');;
-	const Diskon = $('#totDiskon').text().replace(/[.,]/g, '');;
-	const Pajak = $('#totPajak').text().replace(/[.,]/g, '');;
-	const Nilai = $('#total').text().replace(/[.,]/g, '');;
-	let uriSegments = window.location.pathname.split('/');
-	let BASE_URL = window.location.origin + '/' + uriSegments[1];
+function confirmAndSaveTransaction(data, endpointSave, endpointValidateCart, endpointDestroyCart) {
 	Swal.fire({
 		title: 'Are you sure?',
 		text: "Anda Akan Menyimpan Data Transaksi ini",
@@ -193,27 +179,16 @@ $("#btn-simpan-pembelian").click(function (e) {
 		confirmButtonColor: '#3085d6',
 		cancelButtonColor: '#d33',
 		confirmButtonText: 'Yes!'
-	  }).then((result) => {
+	}).then((result) => {
 		if (result.isConfirmed) {
 			$.ajax({
 				method : "POST",
-				url:  BASE_URL + '/' + 'pembelian/Transaksi/addMaster',
-				data : {
-						NoPesanan:NoPesanan,
-						St:St,
-						Supplier:Supplier,
-						Lokasi:Lokasi,
-						TanggalPesanan:TanggalPesanan,
-						Keterangan:Keterangan,
-						NilaiBruto:NilaiBruto,
-						Diskon:Diskon,
-						Pajak:Pajak,
-						Nilai:Nilai,
-					},
+				url:  endpointSave,
+				data : data,
 				beforeSend: function() {
 					$.ajax({
 						type: "POST",
-						url:  BASE_URL + '/' + 'cart/validasiCart',
+						url:  endpointValidateCart,
 						success: function (response) {
 							if (response == '1') {
 								Swal.fire({
@@ -238,15 +213,17 @@ $("#btn-simpan-pembelian").click(function (e) {
 							cancelButtonColor: '#d33',
 							confirmButtonText: 'ok!'
 							}).then((result) => {
-							if (result.isConfirmed) {					
-								$.ajax({
-									type: "POST",
-									url:  BASE_URL + '/' + 'cart/destroyCart',
-									success: function (response) {
-										callResponseForSummary()
-										location.reload();
-									}
-								});
+							if (result.isConfirmed) {		
+								if(data.St != 'Edit') {		
+									$.ajax({
+										type: "POST",
+										url:  endpointDestroyCart,
+										success: function (response) {
+											callResponseForSummary()
+											location.reload();
+										}
+									});
+								}	
 							}
 						})
 					} else {
@@ -254,11 +231,71 @@ $("#btn-simpan-pembelian").click(function (e) {
 							icon: 'error',
 							title: 'Gagal Menambahkan Data!',
 						})
-						// location.reload();
 					}
 				}
 			});
 		}
-	  })
-	
+	})
+}
+
+$("#btn-simpan-pembelian").click(function (e) { 
+	e.preventDefault();
+	const NoPesanan = $('#NoPesanan').val();
+	const St = $('#St').val();
+	const Supplier = $('#Supplier option:selected').val();
+	const Lokasi = $('#Lokasi option:selected').val();
+	const TanggalPesanan = $('#TanggalPesanan').val();
+	const Keterangan = $('#Keterangan').val();
+	const NilaiBruto = $('#totalBruto').text().replace(/[.,]/g, '');;
+	const Diskon = $('#totDiskon').text().replace(/[.,]/g, '');;
+	const Pajak = $('#totPajak').text().replace(/[.,]/g, '');;
+	const Nilai = $('#total').text().replace(/[.,]/g, '');;
+
+	const transactionData = {
+		NoPesanan:NoPesanan,
+		St:St,
+		Supplier:Supplier,
+		Lokasi:Lokasi,
+		TanggalPesanan:TanggalPesanan,
+		Keterangan:Keterangan,
+		NilaiBruto:NilaiBruto,
+		Diskon:Diskon,
+		Pajak:Pajak,
+		Nilai:Nilai,
+    };
+	const endpointSave = BASE_URL + '/' + 'pembelian/Transaksi/addMaster';
+	const endpointValidateCart = BASE_URL + '/' + 'cart/validasiCart';
+	const endpointDestroyCart = BASE_URL + '/' + 'cart/destroyCart';
+
+	confirmAndSaveTransaction(transactionData, endpointSave, endpointValidateCart, endpointDestroyCart)	
 });
+
+$("#btn-simpan-penjualan").click(function (e) { 
+	e.preventDefault();
+	const NoPesanan = $('#NoPesanan').val();
+	const St = $('#St').val();
+	const Customer = $('#customer option:selected').val();
+	const TanggalPesanan = $('#TanggalPesanan').val();
+	const Keterangan = $('#Keterangan').val();
+	const NilaiBruto = $('#totalBruto').text().replace(/[.,]/g, '');;
+	const Diskon = $('#totDiskon').text().replace(/[.,]/g, '');;
+	const Pajak = $('#totPajak').text().replace(/[.,]/g, '');;
+	const Nilai = $('#total').text().replace(/[.,]/g, '');;
+
+	const transactionData = {
+		NoPesanan:NoPesanan,
+		St:St,
+		Customer:Customer,
+		TanggalPesanan:TanggalPesanan,
+		Keterangan:Keterangan,
+		NilaiBruto:NilaiBruto,
+		Diskon:Diskon,
+		Pajak:Pajak,
+		Nilai:Nilai,
+    };
+	const endpointSave = BASE_URL + '/' + 'penjualan/Transaksi/addMaster';
+	const endpointValidateCart = BASE_URL + '/' + 'cart/validasiCart';
+	const endpointDestroyCart = BASE_URL + '/' + 'cart/destroyCart';
+
+	confirmAndSaveTransaction(transactionData, endpointSave, endpointValidateCart, endpointDestroyCart)	
+})

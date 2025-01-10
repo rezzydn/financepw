@@ -32,6 +32,7 @@ class Transaksi extends CI_Controller {
 	
 	public function index()
 	{
+		$this->cart->destroy();
 		$data['data'] = $this->M_Crud->get('pembelian_master');
 
 		$this->load->view('template/header');
@@ -41,7 +42,6 @@ class Transaksi extends CI_Controller {
 	}
 	public function create()
 	{
-		$this->cart->destroy();	
 		$Urutan = $this->db->query("select MAX(RIGHT(no_pesanan , 8 )) as kode from pembelian_master")->result();
 		$kode = $Urutan[0]->kode + 1;
 		$data['NoTrans'] = "PB-".str_pad($kode, 8, "0", STR_PAD_LEFT);
@@ -211,7 +211,7 @@ class Transaksi extends CI_Controller {
 
 	public function edit($no_pesanan)
 	{
-		$data['master'] = $this->M_Transaksi->getDataMaster('v_penjualan_master', $no_pesanan);
+		$data['master'] = $this->M_Transaksi->getDataMaster('v_pembelian_master', $no_pesanan);
 		$detail = $this->M_Transaksi->getDataDetail('pembelian_detail', $no_pesanan);
 
 		if (!empty($data['master'])) {

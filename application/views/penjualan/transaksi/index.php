@@ -20,7 +20,7 @@
                         </div>
 
                         <div class="col hp-flex-none w-auto">
-                            <a href="<?= base_url('pembelian/Transaksi/create')?>" class="btn btn-primary w-100">
+                            <a href="<?= base_url('penjualan/Transaksi/create')?>" class="btn btn-primary w-100">
                                 <i class="ri-user-add-line remix-icon"></i>
                                 <span>Tambah Data</span>
                             </a>

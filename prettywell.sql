@@ -1,4 +1,4 @@
--- Adminer 4.8.1 MySQL 8.0.36-0ubuntu0.22.04.1 dump
+-- Adminer 4.8.1 MySQL 8.4.2 dump
 
 SET NAMES utf8;
 SET time_zone = '+00:00';
@@ -89,18 +89,22 @@ CREATE TABLE `gudang_masuk` (
   `qty_progres` float DEFAULT NULL,
   `user` varchar(100) DEFAULT NULL,
   `waktu` datetime DEFAULT NULL,
-  `id_produk` int unsigned DEFAULT NULL,
-  PRIMARY KEY (`id`),
-  KEY `fk_gudang_masuk_barang` (`id_produk`)
+  `id_produk` int DEFAULT NULL,
+  PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 INSERT INTO `gudang_masuk` (`id`, `no_terima`, `no_pesanan`, `no_penempatan`, `transaksi`, `qty_total`, `qty_progres`, `user`, `waktu`, `id_produk`) VALUES
-(1,	'BIL-00000001',	'PB-00000003',	'PUT-00000001',	'In',	200,	200,	'admin',	'2024-04-14 12:28:53',	7);
+(1,	'BIL-00000001',	'PB-00000001',	'PUT-00000001',	'In',	300,	300,	'admin',	'2023-07-18 17:37:05',	NULL),
+(2,	'BIL-00000002',	'RJ-00000001',	'PUT-00000004',	'In',	20,	20,	'admin',	'2023-07-26 15:23:37',	NULL),
+(3,	'BIL-00000003',	'PB-00000002',	'PUT-00000002',	'In',	3000,	3000,	'admin',	'2023-07-26 15:26:05',	NULL),
+(4,	'BIL-00000004',	'PB-00000003',	'PUT-00000003',	'In',	200,	200,	'admin',	'2023-07-26 16:21:14',	NULL),
+(6,	'BIL-00000005',	'PB-00000009',	'PUT-00000005',	'In',	2,	2,	'admin',	'2025-01-09 23:48:22',	3),
+(7,	'BIL-00000006',	'PB-00000008',	'PUT-00000006',	'In',	1,	1,	'admin',	'2025-01-09 23:49:42',	3);
 
 DROP TABLE IF EXISTS `jurnal_pembelian`;
 CREATE TABLE `jurnal_pembelian` (
   `id` int unsigned NOT NULL AUTO_INCREMENT,
-  `id_data_pembelian` int NOT NULL,
+  `id_data_pembelian` int unsigned NOT NULL,
   `id_perkiraan_akun` int unsigned NOT NULL,
   `debit` varchar(150) DEFAULT NULL,
   `kredit` varchar(150) DEFAULT NULL,
@@ -112,8 +116,15 @@ CREATE TABLE `jurnal_pembelian` (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 INSERT INTO `jurnal_pembelian` (`id`, `id_data_pembelian`, `id_perkiraan_akun`, `debit`, `kredit`) VALUES
-(81,	18,	5,	'73000',	'0'),
-(82,	18,	42,	'0',	'73000');
+(81,	12,	5,	'37000',	'0'),
+(82,	12,	42,	'0',	'37000'),
+(83,	14,	42,	'33300',	'0'),
+(84,	14,	79,	'3330',	'0'),
+(85,	14,	5,	'0',	'36630'),
+(86,	15,	42,	'94080',	'0'),
+(87,	15,	5,	'0',	'94080'),
+(98,	21,	42,	'36630',	'0'),
+(99,	21,	5,	'0',	'36630');
 
 DROP TABLE IF EXISTS `jurnal_penjualan`;
 CREATE TABLE `jurnal_penjualan` (
@@ -130,7 +141,11 @@ CREATE TABLE `jurnal_penjualan` (
 INSERT INTO `jurnal_penjualan` (`id`, `id_data_penjualan`, `id_perkiraan_akun`, `debit`, `kredit`) VALUES
 (117,	73,	5,	'528000',	'0'),
 (118,	73,	10,	'0',	'528000'),
-(119,	73,	11,	'0',	'');
+(119,	73,	11,	'0',	''),
+(120,	2,	5,	'74000',	'0'),
+(121,	2,	54,	'0',	'74000'),
+(122,	3,	5,	'37000',	'0'),
+(123,	3,	54,	'0',	'37000');
 
 DROP TABLE IF EXISTS `jurnal_penyesuaian`;
 CREATE TABLE `jurnal_penyesuaian` (
@@ -2187,7 +2202,21 @@ INSERT INTO `jurnal_umum` (`id`, `id_perkiraan_akun`, `kode_transaksi`, `tanggal
 (1829,	59,	'JU-0927',	'2022-12-31',	'1854',	'',	'143065946',	'0'),
 (1830,	5,	'JU-0927',	'2022-12-31',	'1855',	'',	'0',	'143065946'),
 (1831,	51,	'JU-0928',	'2022-12-31',	'1856',	'',	'2805487',	'0'),
-(1832,	5,	'JU-0928',	'2022-12-31',	'1857',	'',	'0',	'2805487');
+(1832,	5,	'JU-0928',	'2022-12-31',	'1857',	'',	'0',	'2805487'),
+(1833,	40,	'JU-0929',	'2024-08-26',	NULL,	'',	'1000',	'0'),
+(1834,	5,	'JU-0929',	'2024-08-26',	NULL,	'',	'0',	'1000'),
+(1835,	40,	'JU-0930',	'2024-08-26',	NULL,	'cek',	'1000',	'0'),
+(1836,	5,	'JU-0930',	'2024-08-26',	NULL,	'cek',	'0',	'1000'),
+(1837,	40,	'JU-0931',	'2024-08-26',	NULL,	'Cek',	'1000',	'0'),
+(1838,	5,	'JU-0931',	'2024-08-26',	NULL,	'Cek',	'0',	'1000'),
+(1839,	40,	'JU-0932',	'2024-08-26',	NULL,	'ket',	'1000',	'0'),
+(1840,	5,	'JU-0932',	'2024-08-26',	NULL,	'ket',	'0',	'1000'),
+(1841,	40,	'JU-0933',	'2024-08-26',	NULL,	'cs',	'1000',	'0'),
+(1842,	5,	'JU-0933',	'2024-08-26',	NULL,	'cs',	'0',	'1000'),
+(1843,	40,	'JU-0934',	'2024-08-26',	NULL,	'asd',	'1000',	'0'),
+(1844,	5,	'JU-0934',	'2024-08-26',	NULL,	'asd',	'0',	'1000'),
+(1845,	40,	'JU-0935',	'2024-08-26',	NULL,	'asdsa',	'1000',	'0'),
+(1846,	5,	'JU-0935',	'2024-08-26',	NULL,	'asdsa',	'0',	'1000');
 
 DROP TABLE IF EXISTS `karyawan`;
 CREATE TABLE `karyawan` (
@@ -2207,7 +2236,7 @@ DROP TABLE IF EXISTS `pembelian_detail`;
 CREATE TABLE `pembelian_detail` (
   `id` int NOT NULL AUTO_INCREMENT,
   `no_pesanan` varchar(100) NOT NULL,
-  `id_produk` int unsigned DEFAULT NULL,
+  `id_produk` varchar(50) DEFAULT NULL,
   `nama_produk` varchar(255) NOT NULL,
   `harga` float NOT NULL,
   `qty` float NOT NULL,
@@ -2218,21 +2247,25 @@ CREATE TABLE `pembelian_detail` (
   `status2` varchar(100) NOT NULL,
   `statusInt` float NOT NULL,
   `waktu` datetime NOT NULL,
-  PRIMARY KEY (`id`),
-  KEY `id_no_pesanan_fk` (`no_pesanan`),
-  CONSTRAINT `id_no_pesanan_fk` FOREIGN KEY (`no_pesanan`) REFERENCES `pembelian_master` (`no_pesanan`) ON DELETE CASCADE
+  PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 INSERT INTO `pembelian_detail` (`id`, `no_pesanan`, `id_produk`, `nama_produk`, `harga`, `qty`, `diskon_prtg`, `diskon_nilai`, `pajak`, `status1`, `status2`, `statusInt`, `waktu`) VALUES
-(1,	'PB-00000001',	7,	'Prettywell Fancy Clay Mask',	18000,	300,	0,	0,	0,	'New',	'',	0,	'2023-07-18 17:36:42'),
-(2,	'RJ-00000001',	7,	'Prettywell Fancy Clay Mask',	18000,	20,	0,	0,	0,	'New',	'',	0,	'2023-07-18 17:40:09'),
-(3,	'PB-00000002',	8,	'Prettywell Rare Clay Mask',	18000,	3000,	0.0555556,	30000,	10,	'New',	'',	0,	'2023-07-26 15:25:25'),
-(24,	'PB-00000003',	7,	'Prettywell Fancy Clay Mask',	18000,	2,	0,	0,	0,	'New',	'',	0,	'2024-04-14 13:37:01'),
-(25,	'PB-00000003',	3,	'CeraMON Barrier Moistfull Gel 10mL',	37000,	1,	0,	0,	0,	'New',	'',	0,	'2024-04-14 13:37:01');
+(1,	'PB-00000001',	'7',	'Prettywell Fancy Clay Mask',	18000,	300,	0,	0,	0,	'New',	'',	0,	'2023-07-18 17:36:42'),
+(2,	'RJ-00000001',	'7',	'Prettywell Fancy Clay Mask',	18000,	20,	0,	0,	0,	'New',	'',	0,	'2023-07-18 17:40:09'),
+(3,	'PB-00000002',	'8',	'Prettywell Rare Clay Mask',	18000,	3000,	0.0555556,	30000,	10,	'New',	'',	0,	'2023-07-26 15:25:25'),
+(4,	'PB-00000003',	'7',	'Prettywell Fancy Clay Mask',	18000,	200,	0,	0,	0,	'New',	'',	0,	'2023-07-26 16:20:34'),
+(7,	'PJ-00000002',	'3',	'CeraMON Barrier Moistfull Gel 10mL',	37000,	2,	0,	0,	0,	'Edit',	'',	0,	'2025-01-07 15:22:18'),
+(8,	'PB-00000008',	'3',	'CeraMON Barrier Moistfull Gel 10mL',	37000,	1,	0,	0,	0,	'New',	'',	0,	'2025-01-08 15:37:06'),
+(9,	'PB-00000009',	'3',	'CeraMON Barrier Moistfull Gel 10mL',	37000,	2,	2,	1480,	10,	'New',	'',	0,	'2025-01-09 14:48:41'),
+(10,	'PB-00000010',	'3',	'CeraMON Barrier Moistfull Gel 10mL',	37000,	1,	10,	3700,	10,	'New',	'',	0,	'2025-01-09 14:49:17'),
+(11,	'PB-00000011',	'4',	'2% PHA + BHA Gentle Exfoliating Toner 100mL',	59000,	1,	2,	1180,	0,	'New',	'',	0,	'2025-01-09 23:55:54'),
+(12,	'PB-00000011',	'3',	'CeraMON Barrier Moistfull Gel 10mL',	37000,	1,	2,	740,	0,	'New',	'',	0,	'2025-01-09 23:55:54'),
+(18,	'PB-00000012',	'3',	'CeraMON Barrier Moistfull Gel 10mL',	37000,	1,	1,	370,	0,	'Edit',	'',	0,	'2025-01-10 15:41:41');
 
 DROP TABLE IF EXISTS `pembelian_master`;
 CREATE TABLE `pembelian_master` (
-  `id` int NOT NULL AUTO_INCREMENT,
+  `id` int unsigned NOT NULL AUTO_INCREMENT,
   `no_pesanan` varchar(100) NOT NULL,
   `nama_supplier` varchar(100) NOT NULL,
   `lokasi` varchar(100) NOT NULL,
@@ -2256,7 +2289,60 @@ INSERT INTO `pembelian_master` (`id`, `no_pesanan`, `nama_supplier`, `lokasi`, `
 (1,	'PB-00000001',	'Supplier',	'Gundang',	'2023-07-18',	'Aktif',	5400000,	0,	0,	5400000,	'Restock',	'2023-07-18 17:36:42',	'New',	'Trans',	300,	0),
 (2,	'RJ-00000001',	'Supplier',	'Gundang',	'2023-07-18',	'Aktif',	360000,	0,	0,	360000,	'Retur 20 Produk CCD',	'2023-07-18 17:40:09',	'New',	'Retur',	20,	0),
 (3,	'PB-00000002',	'Supplier',	'Gundang',	'2023-07-26',	'Aktif',	54000000,	30000,	5397000,	59367000,	'Restock Barang',	'2023-07-26 15:25:25',	'New',	'Trans',	3000,	0),
-(18,	'PB-00000003',	'Supplier',	'Gundang',	'2024-04-14',	'Aktif',	73000,	0,	0,	73000,	'Keterangan',	'2024-04-14 13:37:01',	'New',	'Trans',	0,	0);
+(4,	'PB-00000003',	'Supplier',	'Gundang',	'2023-07-26',	'Aktif',	3600000,	0,	0,	3600000,	'Restock Feel Alive Toner',	'2023-07-26 16:20:34',	'New',	'Trans',	200,	0),
+(10,	'PB-00000006',	'Supplier',	'Gundang',	'2025-01-08',	'Aktif',	37000,	0,	3700,	40700,	'',	'2025-01-08 15:33:14',	'New',	'Trans',	0,	0),
+(11,	'PB-00000007',	'--Pilih--',	'Gundang',	'2025-01-08',	'Aktif',	37000,	0,	3700,	40700,	'',	'2025-01-08 15:33:40',	'New',	'Trans',	0,	0),
+(12,	'PB-00000008',	'Supplier',	'Gundang',	'2025-01-08',	'Aktif',	37000,	0,	0,	37000,	'',	'2025-01-08 15:37:06',	'New',	'Trans',	1,	0),
+(13,	'PB-00000009',	'Supplier',	'Gundang',	'2025-01-09',	'Aktif',	74000,	1480,	7252,	79772,	'Ketere',	'2025-01-09 14:48:41',	'New',	'Trans',	2,	0),
+(14,	'PB-00000010',	'Supplier',	'Gundang',	'2025-01-09',	'Aktif',	37000,	3700,	3330,	36630,	'Keterangan',	'2025-01-09 14:49:17',	'New',	'Trans',	1,	0),
+(15,	'PB-00000011',	'Supplier',	'Gundang',	'2025-01-08',	'Aktif',	96000,	1920,	0,	94080,	'Ket',	'2025-01-09 23:55:54',	'New',	'Trans',	0,	0),
+(21,	'PB-00000012',	'Supplier',	'Gundang',	'2025-01-10',	'Aktif',	37000,	370,	0,	36630,	'Keterangan 1',	'2025-01-10 15:41:41',	'Edit',	'Trans',	0,	0);
+
+DROP TABLE IF EXISTS `penjualan_detail`;
+CREATE TABLE `penjualan_detail` (
+  `id` int unsigned NOT NULL AUTO_INCREMENT,
+  `no_pesanan` varchar(100) NOT NULL,
+  `id_produk` int NOT NULL,
+  `nama_produk` varchar(100) NOT NULL,
+  `harga` float NOT NULL,
+  `qty` float NOT NULL,
+  `diskon_prtg` float NOT NULL,
+  `diskon_nilai` float NOT NULL,
+  `pajak` float NOT NULL,
+  `status1` varchar(100) NOT NULL,
+  `status2` varchar(100) NOT NULL,
+  `statusInt` float NOT NULL,
+  `waktu` datetime NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+INSERT INTO `penjualan_detail` (`id`, `no_pesanan`, `id_produk`, `nama_produk`, `harga`, `qty`, `diskon_prtg`, `diskon_nilai`, `pajak`, `status1`, `status2`, `statusInt`, `waktu`) VALUES
+(1,	'PJ-00000002',	3,	'CeraMON Barrier Moistfull Gel 10mL',	37000,	2,	0,	0,	0,	'New',	'',	0,	'2025-01-07 15:07:32'),
+(2,	'PJ-00000003',	3,	'CeraMON Barrier Moistfull Gel 10mL',	37000,	1,	0,	0,	0,	'New',	'',	0,	'2025-01-10 15:25:59');
+
+DROP TABLE IF EXISTS `penjualan_master`;
+CREATE TABLE `penjualan_master` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `no_pesanan` varchar(100) NOT NULL,
+  `id_customer` int NOT NULL,
+  `tanggal_pesanan` date NOT NULL,
+  `status` varchar(100) NOT NULL,
+  `nilai_bruto` float NOT NULL,
+  `diskon` float NOT NULL,
+  `pajak` float NOT NULL,
+  `nilai` float NOT NULL,
+  `keterangan` text NOT NULL,
+  `waktu` datetime NOT NULL,
+  `status1` varchar(100) NOT NULL,
+  `status2` varchar(100) NOT NULL,
+  `StatusInt1` float NOT NULL,
+  `StatusInt2` float NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+INSERT INTO `penjualan_master` (`id`, `no_pesanan`, `id_customer`, `tanggal_pesanan`, `status`, `nilai_bruto`, `diskon`, `pajak`, `nilai`, `keterangan`, `waktu`, `status1`, `status2`, `StatusInt1`, `StatusInt2`) VALUES
+(2,	'PJ-00000002',	7,	'2025-01-07',	'Aktif',	74000,	0,	0,	74000,	'Keterangan',	'2025-01-07 15:07:32',	'New',	'Trans',	0,	0),
+(3,	'PJ-00000003',	0,	'2025-01-10',	'Aktif',	37000,	0,	0,	37000,	'Ket',	'2025-01-10 15:25:59',	'New',	'Trans',	0,	0);
 
 DROP TABLE IF EXISTS `perkiraan_akun`;
 CREATE TABLE `perkiraan_akun` (
@@ -2304,7 +2390,8 @@ INSERT INTO `perkiraan_akun` (`idPerkiraanAkun`, `no`, `nama`, `kelompok`, `sald
 (71,	'5290',	'Beban Packing',	'Beban Penjualan',	'0'),
 (72,	'5291',	'Beban Lain-lain',	'Beban Penjualan',	'0'),
 (73,	'5300',	'Beban Administrasi dan Umum',	'Beban Administrasi dan Umum',	'0'),
-(74,	'5400',	'Beban Pajak Penghasilan',	'Beban Lain-lain',	'0');
+(74,	'5400',	'Beban Pajak Penghasilan',	'Beban Lain-lain',	'0'),
+(79,	'1116',	'PPN Masukan',	'Asset Lancar',	'0');
 
 DROP TABLE IF EXISTS `retur_penjualan`;
 CREATE TABLE `retur_penjualan` (
@@ -2363,10 +2450,17 @@ INSERT INTO `supplier` (`idSupplier`, `kode`, `nama`, `alamat`, `no_telp`, `emai
 (5,	'SUP-004',	'Supplier 4',	'Jakarta',	'081627272727',	'jkt@dasd');
 
 DROP VIEW IF EXISTS `v_pembelian_master`;
-CREATE TABLE `v_pembelian_master` (`id` int, `no_pesanan` varchar(100), `lokasi` varchar(100), `nama_supplier` varchar(100), `tanggal_pesanan` date, `status` varchar(100), `nilai_bruto` float, `diskon` float, `pajak` float, `nilai` float, `keterangan` text, `waktu` datetime, `status1` varchar(100), `status2` varchar(100), `StatusInt1` float, `StatusInt2` float, `qty` double, `id_produk` int unsigned);
+CREATE TABLE `v_pembelian_master` (`id` int unsigned, `no_pesanan` varchar(100), `lokasi` varchar(100), `nama_supplier` varchar(100), `tanggal_pesanan` date, `status` varchar(100), `nilai_bruto` float, `diskon` float, `pajak` float, `nilai` float, `keterangan` text, `waktu` datetime, `status1` varchar(100), `status2` varchar(100), `StatusInt1` float, `StatusInt2` float, `qty` double);
+
+
+DROP VIEW IF EXISTS `v_penjualan_master`;
+CREATE TABLE `v_penjualan_master` (`id` int, `no_pesanan` varchar(100), `id_customer` int, `tanggal_pesanan` date, `status` varchar(100), `nilai_bruto` float, `diskon` float, `pajak` float, `nilai` float, `keterangan` text, `waktu` datetime, `status1` varchar(100), `status2` varchar(100), `StatusInt1` float, `StatusInt2` float, `qty` double);
 
 
 DROP TABLE IF EXISTS `v_pembelian_master`;
-CREATE ALGORITHM=UNDEFINED SQL SECURITY DEFINER VIEW `v_pembelian_master` AS select `pm`.`id` AS `id`,`pm`.`no_pesanan` AS `no_pesanan`,`pm`.`lokasi` AS `lokasi`,`pm`.`nama_supplier` AS `nama_supplier`,`pm`.`tanggal_pesanan` AS `tanggal_pesanan`,`pm`.`status` AS `status`,`pm`.`nilai_bruto` AS `nilai_bruto`,`pm`.`diskon` AS `diskon`,`pm`.`pajak` AS `pajak`,`pm`.`nilai` AS `nilai`,`pm`.`keterangan` AS `keterangan`,`pm`.`waktu` AS `waktu`,`pm`.`status1` AS `status1`,`pm`.`status2` AS `status2`,`pm`.`StatusInt1` AS `StatusInt1`,`pm`.`StatusInt2` AS `StatusInt2`,`pd`.`qty` AS `qty`,`pd`.`id_produk` AS `id_produk` from (`pembelian_master` `pm` left join (select `pembelian_detail`.`no_pesanan` AS `no_pesanan`,sum(`pembelian_detail`.`qty`) AS `qty`,`pembelian_detail`.`id_produk` AS `id_produk` from `pembelian_detail` group by `pembelian_detail`.`no_pesanan`,`pembelian_detail`.`id_produk`) `pd` on((`pm`.`no_pesanan` = `pd`.`no_pesanan`)));
+CREATE ALGORITHM=UNDEFINED SQL SECURITY DEFINER VIEW `v_pembelian_master` AS select `pm`.`id` AS `id`,`pm`.`no_pesanan` AS `no_pesanan`,`pm`.`lokasi` AS `lokasi`,`pm`.`nama_supplier` AS `nama_supplier`,`pm`.`tanggal_pesanan` AS `tanggal_pesanan`,`pm`.`status` AS `status`,`pm`.`nilai_bruto` AS `nilai_bruto`,`pm`.`diskon` AS `diskon`,`pm`.`pajak` AS `pajak`,`pm`.`nilai` AS `nilai`,`pm`.`keterangan` AS `keterangan`,`pm`.`waktu` AS `waktu`,`pm`.`status1` AS `status1`,`pm`.`status2` AS `status2`,`pm`.`StatusInt1` AS `StatusInt1`,`pm`.`StatusInt2` AS `StatusInt2`,`pd`.`qty` AS `qty` from (`pembelian_master` `pm` left join (select `pembelian_detail`.`no_pesanan` AS `no_pesanan`,sum(`pembelian_detail`.`qty`) AS `qty` from `pembelian_detail` group by `pembelian_detail`.`no_pesanan`) `pd` on((`pm`.`no_pesanan` = `pd`.`no_pesanan`)));
 
--- 2024-04-25 14:29:08
+DROP TABLE IF EXISTS `v_penjualan_master`;
+CREATE ALGORITHM=UNDEFINED SQL SECURITY DEFINER VIEW `v_penjualan_master` AS select `pm`.`id` AS `id`,`pm`.`no_pesanan` AS `no_pesanan`,`pm`.`id_customer` AS `id_customer`,`pm`.`tanggal_pesanan` AS `tanggal_pesanan`,`pm`.`status` AS `status`,`pm`.`nilai_bruto` AS `nilai_bruto`,`pm`.`diskon` AS `diskon`,`pm`.`pajak` AS `pajak`,`pm`.`nilai` AS `nilai`,`pm`.`keterangan` AS `keterangan`,`pm`.`waktu` AS `waktu`,`pm`.`status1` AS `status1`,`pm`.`status2` AS `status2`,`pm`.`StatusInt1` AS `StatusInt1`,`pm`.`StatusInt2` AS `StatusInt2`,`pd`.`qty` AS `qty` from (`penjualan_master` `pm` left join (select `penjualan_detail`.`no_pesanan` AS `no_pesanan`,sum(`penjualan_detail`.`qty`) AS `qty` from `penjualan_detail` group by `penjualan_detail`.`no_pesanan`) `pd` on((`pm`.`no_pesanan` = `pd`.`no_pesanan`)));
+
+-- 2025-01-10 15:42:07

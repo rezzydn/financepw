@@ -54,7 +54,7 @@
     <!-- Custom -->
     <script src="<?= base_url()?>assets/assets/js/main.js"></script>
 	<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-    <script src="<?= base_url()?>assets/assets/js/transaksi-pembelian.js"></script>
+    <script src="<?= base_url()?>assets/assets/js/transaksi.js"></script>
     <script src="<?= base_url()?>assets/assets/js/gudang.js"></script>
     <script src="<?= base_url()?>assets/assets/js/retur-penjualan.js"></script>
     <script src="<?= base_url()?>assets/assets/js/tambah-jurnal.js"></script>
