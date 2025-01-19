@@ -56,8 +56,8 @@
                                         <td><?= $value->email?></td>
                                         <td><?= $value->tipe_cust?></td>
                                         <td>
-                                            <a href="<?= base_url('penjualan/Customer/edit/'.$value->idCustomer)?>" class="btn btn-warning btn-sm m-2">Edit</a>
-                                            <a href="<?= base_url('penjualan/Customer/delete/'.$value->idCustomer)?>" class="btn btn-danger btn-sm m-2" onclick="return confirm('are you sure?')">Delete</a>
+                                            <a href="<?= base_url('penjualan/Customer/edit/'.$value->id)?>" class="btn btn-warning btn-sm m-2">Edit</a>
+                                            <a href="<?= base_url('penjualan/Customer/delete/'.$value->id)?>" class="btn btn-danger btn-sm m-2" onclick="return confirm('are you sure?')">Delete</a>
                                         </td>
                                     </tr>
                                     <?php }?>

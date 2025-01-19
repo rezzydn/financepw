@@ -45,7 +45,7 @@ class Customer extends CI_Controller {
 	public function edit($id)
 	{
 		$where = [
-			'idCustomer' => $id
+			'id' => $id
 		];
 		$data['data'] = $this->M_Crud->getById('customer',$where);
 		$this->load->view('template/header');
@@ -74,7 +74,7 @@ class Customer extends CI_Controller {
 	
 	function update()
 	{
-		$where = array('idCustomer' => $this->input->post('id'));
+		$where = array('id' => $this->input->post('id'));
 		$data = [
 			'kode' => $this->input->post('kode'),
 			'nama' => $this->input->post('nama'),
@@ -94,7 +94,7 @@ class Customer extends CI_Controller {
 
 	function delete($id) 
 	{
-		$where = array('idCustomer' => $id);
+		$where = array('id' => $id);
 		$res = $this->M_Crud->delete($where,"customer");
 		$this->session->set_flashdata('success', '<div style="text-align:center;" class="alert alert-danger" role="alert">
 		Data Customer berhasil dihapus!</div>');

@@ -37,9 +37,24 @@ class M_Jurnal extends CI_Model {
                                 jurnal_umum
                             $juConditionDate";
 
+        $sqlJurnalPenjualan = "SELECT 
+                                pm.no_pesanan AS no_jurnal, 
+                                DATE_FORMAT(pm.waktu, '%d %M %Y %H:%i:%s') AS tgl_jurnal, 
+                                'Penjualan' AS sumber, 
+                                pm.nilai AS nominal, 
+                                pm.keterangan AS keterangan
+                            FROM 
+                                penjualan_master pm 
+                            INNER JOIN 
+                                (SELECT DISTINCT id_data_penjualan FROM jurnal_penjualan) jp 
+                            ON jp.id_data_penjualan = pm.id
+                            $jpConditionDate";
+
         $sql    = "$sqlJurnalPembelian
                     UNION
                     $sqlJurnalUmum
+                    UNION
+                    $sqlJurnalPenjualan
                     ORDER by no_jurnal DESC";
         $result = $this->db->query($sql)->result_array(); 
         

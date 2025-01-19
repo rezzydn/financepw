@@ -38,7 +38,7 @@
 										<select class="form-select" id="customer" name="id_customer" >
 											<option selected hidden>--Pilih--</option>
 											<?php foreach($customers as $customer) { ?>
-												<option value="<?= $customer->idCustomer ?>"><?= $customer->kode . "-" . $customer->nama ?></option>										
+												<option value="<?= $customer->id ?>"><?= $customer->kode . "-" . $customer->nama ?></option>										
 											<?php }?>
 										</select>
 									</div>

@@ -24,6 +24,7 @@ class Transaksi extends CI_Controller {
 		parent::__construct();
 		$this->load->model('M_Crud');
 		$this->load->model('M_Transaksi');
+		$this->load->model('M_Penjualan');
 		$this->load->library('cart');
 		// $this->cart->destroy();	
 	}
@@ -31,8 +32,8 @@ class Transaksi extends CI_Controller {
 	public function index()
 	{
 		$this->cart->destroy();
-		$data['data'] = $this->M_Crud->get('penjualan_master');
-
+		// $data['data'] = $this->M_Crud->get('penjualan_master');
+		$data['data'] = $this->M_Penjualan->get_penjualan_with_customer();
 		$this->load->view('template/header');
 		$this->load->view('template/navbar');
 		$this->load->view('penjualan/transaksi/index',$data);

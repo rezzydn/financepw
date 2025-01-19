@@ -44,7 +44,7 @@
 										<select class="form-select" id="customer" name="id_customer" disabled>
 											<option selected hidden>--Pilih--</option>
 											<?php foreach($customers as $customer) { ?>
-												<option <?= $customer->idCustomer == $master[0]->id_customer ? 'selected' : '' ?> value="<?= $customer->idCustomer ?>"><?= $customer->kode . "-" . $customer->nama ?></option>										
+												<option <?= $customer->id == $master[0]->id_customer ? 'selected' : '' ?> value="<?= $customer->id ?>"><?= $customer->kode . "-" . $customer->nama ?></option>										
 											<?php }?>
 										</select>
 									</div>

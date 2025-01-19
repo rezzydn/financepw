@@ -26,17 +26,17 @@ INSERT INTO `barang` (`idBarang`, `kode`, `nama`, `jenis`, `satuan`, `stok`, `ha
 
 DROP TABLE IF EXISTS `customer`;
 CREATE TABLE `customer` (
-  `idCustomer` int unsigned NOT NULL AUTO_INCREMENT,
+  `id` int unsigned NOT NULL AUTO_INCREMENT,
   `kode` varchar(20) DEFAULT NULL,
   `nama` varchar(30) DEFAULT NULL,
   `alamat` varchar(64) DEFAULT NULL,
   `no_telp` varchar(15) DEFAULT NULL,
   `email` varchar(20) DEFAULT NULL,
   `tipe_cust` varchar(20) DEFAULT NULL,
-  PRIMARY KEY (`idCustomer`)
+  PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
-INSERT INTO `customer` (`idCustomer`, `kode`, `nama`, `alamat`, `no_telp`, `email`, `tipe_cust`) VALUES
+INSERT INTO `customer` (`id`, `kode`, `nama`, `alamat`, `no_telp`, `email`, `tipe_cust`) VALUES
 (1,	'CUST001',	'Husna',	'Desa Krenceng RT 01 RW 01, Kec. Kepung Kab. Kediri',	'081234654212',	'husna@mail.com',	'Customer Biasa'),
 (7,	'CUST002',	'Rezy Andrean Rosyidin',	'Garon RT 21 RW 04 Balerejo',	'081234654212',	'rezzyandrean@gmail.c',	NULL);
 
@@ -70,7 +70,7 @@ CREATE TABLE `data_penjualan` (
   `total` varchar(50) NOT NULL,
   PRIMARY KEY (`idDataPenjualan`),
   KEY `id_customer` (`id_customer`),
-  CONSTRAINT `data_penjualan_ibfk_1` FOREIGN KEY (`id_customer`) REFERENCES `customer` (`idCustomer`)
+  CONSTRAINT `data_penjualan_ibfk_1` FOREIGN KEY (`id_customer`) REFERENCES `customer` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 INSERT INTO `data_penjualan` (`idDataPenjualan`, `id_customer`, `kodeTransaksiPenjualan`, `tanggal`, `nama_customer`, `no_bukti_transaksi`, `bayar`, `ppn`, `total`) VALUES

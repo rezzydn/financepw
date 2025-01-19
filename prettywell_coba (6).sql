@@ -55,7 +55,7 @@ INSERT INTO `barang` (`idBarang`, `kode`, `nama`, `jenis`, `satuan`, `stok`, `ha
 --
 
 CREATE TABLE `customer` (
-  `idCustomer` int(11) UNSIGNED NOT NULL,
+  `id` int(11) UNSIGNED NOT NULL,
   `kode` varchar(20) DEFAULT NULL,
   `nama` varchar(30) DEFAULT NULL,
   `alamat` varchar(64) DEFAULT NULL,
@@ -68,7 +68,7 @@ CREATE TABLE `customer` (
 -- Dumping data untuk tabel `customer`
 --
 
-INSERT INTO `customer` (`idCustomer`, `kode`, `nama`, `alamat`, `no_telp`, `email`, `tipe_cust`) VALUES
+INSERT INTO `customer` (`id`, `kode`, `nama`, `alamat`, `no_telp`, `email`, `tipe_cust`) VALUES
 (1, 'CUST001', 'Husna', 'Desa Krenceng RT 01 RW 01, Kec. Kepung Kab. Kediri', '081234654212', 'husna@mail.com', 'Customer Biasa'),
 (7, 'CUST002', 'Rezy Andrean Rosyidin', 'Garon RT 21 RW 04 Balerejo', '081234654212', 'rezzyandrean@gmail.c', NULL);
 
@@ -2514,7 +2514,7 @@ ALTER TABLE `barang`
 -- Indeks untuk tabel `customer`
 --
 ALTER TABLE `customer`
-  ADD PRIMARY KEY (`idCustomer`);
+  ADD PRIMARY KEY (`id`);
 
 --
 -- Indeks untuk tabel `data_pembelian`
@@ -2626,7 +2626,7 @@ ALTER TABLE `barang`
 -- AUTO_INCREMENT untuk tabel `customer`
 --
 ALTER TABLE `customer`
-  MODIFY `idCustomer` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT untuk tabel `data_pembelian`
@@ -2726,7 +2726,7 @@ ALTER TABLE `data_pembelian`
 -- Ketidakleluasaan untuk tabel `data_penjualan`
 --
 ALTER TABLE `data_penjualan`
-  ADD CONSTRAINT `data_penjualan_ibfk_1` FOREIGN KEY (`id_customer`) REFERENCES `customer` (`idCustomer`) ON DELETE NO ACTION ON UPDATE NO ACTION;
+  ADD CONSTRAINT `data_penjualan_ibfk_1` FOREIGN KEY (`id_customer`) REFERENCES `customer` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
 
 --
 -- Ketidakleluasaan untuk tabel `jurnal_pembelian`

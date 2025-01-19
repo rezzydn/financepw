@@ -3,8 +3,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 class M_Crud extends CI_Model {
 
-    public function format_harga($price) {
-        
+    public function format_harga($price) 
+    {     
         $new = number_format($price, 0, '.','.');
         return 'Rp '.$new;
     }

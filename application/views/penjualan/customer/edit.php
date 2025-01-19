@@ -11,7 +11,7 @@
 					<form action="<?= base_url('penjualan/Customer/update')?>" method="POST">
 						<div class="mb-24">
 							<label class="form-label">Kode</label>
-							<input type="hidden" class="form-control" name="id" value="<?= $data[0]->idCustomer ?>">
+							<input type="hidden" class="form-control" name="id" value="<?= $data[0]->id ?>">
 							<input type="text" class="form-control" name="kode" value="<?= $data[0]->kode ?>">
 						</div>
 						<div class="mb-24">

@@ -50,7 +50,7 @@
                                     <tr>
                                         <th scope="row"><?= $no++ ?></th>
                                         <td><?= $value->no_pesanan?></td>
-                                        <td><?= $value->id_customer?></td>
+                                        <td><?= $value->nama?></td>
                                         <td><?= $value->tanggal_pesanan?></td>
                                         <td><?= $value->status?></td>
                                        
