@@ -64,7 +64,10 @@ $("#btn-simpan-pesanan-pembelian").click(function (e) {
 					'Produk Sudah Diterima Gudang',
 					'success'
 					)
-					location.reload();
+					// location.reload();
+					setTimeout(function () {
+						window.location.href = BASE_URL + '/' + 'gudang/BarangMasuk';
+					}, 1000);
 				}
 				})
 			} else {

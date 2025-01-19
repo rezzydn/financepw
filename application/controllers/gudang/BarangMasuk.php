@@ -147,7 +147,6 @@ class BarangMasuk extends CI_Controller {
 			];
 			$insert_gudang = $this->db->insert('gudang_masuk',$gudang);
 			if ($insert_gudang) {	
-				// var_dump($no_pesanan);die;
 				$data_gd_masuk = $this->db->get_where('gudang_masuk', array('no_pesanan' => $no_pesanan))->result();
 				$sum_qty_diterima = 0;
 				if (count($data_gd_masuk) > 0) {

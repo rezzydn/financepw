@@ -101,7 +101,9 @@
 																			</td>
 																			<td><?= $value->keterangan?></td>
 																			<td>
-																				<a class="btn btn-success btn-sm" href="<?= base_url('gudang/BarangMasuk/pesananPembelian/'.$value->no_pesanan)?>">Terima</a>
+																			    <?php if (!$found): ?>
+                                                                                    <a class="btn btn-success btn-sm" href="<?= base_url('gudang/BarangMasuk/pesananPembelian/'.$value->no_pesanan)?>">Terima</a>
+                                                                                <?php endif; ?>
 																				<a class="btn btn-secondary btn-sm">Cetak</a>
 																			</td>
 																		</tr>
